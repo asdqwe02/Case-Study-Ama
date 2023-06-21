@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5aba27647a534f7f9e2870c466aa62c1, type: 3}
+  m_Name: ConstantData
+  m_EditorClassIdentifier: 
+  Groups:
+  - GroupName: InventoryKeys
+    Values:
+    - ValueName: TOKEN
+      Type: 0
+      IntValue: 0
+      FloatValue: 0
+      DoubleValue: 0
+      LongValue: 0
+      BoolValue: 0
+      StringValue: Token
+      Vector2Value: {x: 0, y: 0}
+      Vector3Value: {x: 0, y: 0, z: 0}
+      QuaternionValue: {x: 0, y: 0, z: 0, w: 0}
+      ColorValue: {r: 0, g: 0, b: 0, a: 0}
+    - ValueName: LOCATION_2D
+      Type: 6
+      IntValue: 0
+      FloatValue: 0
+      DoubleValue: 0
+      LongValue: 0
+      BoolValue: 0
+      StringValue: 
+      Vector2Value: {x: 25, y: 3}
+      Vector3Value: {x: 0, y: 0, z: 0}
+      QuaternionValue: {x: 0, y: 0, z: 0, w: 0}
+      ColorValue: {r: 0, g: 0, b: 0, a: 0}
+    - ValueName: LOCATION_3D
+      Type: 7
+      IntValue: 0
+      FloatValue: 0
+      DoubleValue: 0
+      LongValue: 0
+      BoolValue: 0
+      StringValue: 
+      Vector2Value: {x: 0, y: 0}
+      Vector3Value: {x: 25.4, y: 3, z: 6}
+      QuaternionValue: {x: 0, y: 0, z: 0, w: 0}
+      ColorValue: {r: 0, g: 0, b: 0, a: 0}
+    - ValueName: MAIN_COLOR
+      Type: 9
+      IntValue: 0
+      FloatValue: 0
+      DoubleValue: 0
+      LongValue: 0
+      BoolValue: 0
+      StringValue: 
+      Vector2Value: {x: 0, y: 0}
+      Vector3Value: {x: 0, y: 0, z: 0}
+      QuaternionValue: {x: 0, y: 0, z: 0, w: 0}
+      ColorValue: {r: 0.5943396, g: 0.38351727, b: 0.38351727, a: 1}
+    - ValueName: ROTATION
+      Type: 8
+      IntValue: 0
+      FloatValue: 0
+      DoubleValue: 0
+      LongValue: 0
+      BoolValue: 0
+      StringValue: 
+      Vector2Value: {x: 0, y: 0}
+      Vector3Value: {x: 0, y: 0, z: 0}
+      QuaternionValue: {x: 0.03622227, y: 0.4991916, z: -0.0007708054, w: 0.8657338}
+      ColorValue: {r: 0, g: 0, b: 0, a: 0}
+    - ValueName: 
+      Type: 1
+      IntValue: 0
+      FloatValue: 0
+      DoubleValue: 0
+      LongValue: 0
+      BoolValue: 0
+      StringValue: 
+      Vector2Value: {x: 0, y: 0}
+      Vector3Value: {x: 0, y: 0, z: 0}
+      QuaternionValue: {x: 0, y: 0, z: 0, w: 0}
+      ColorValue: {r: 0, g: 0, b: 0, a: 0}
+  ConstantDefineFileSavePath: PKFramework/Examples
+  ConstantDefineFileName: Constants

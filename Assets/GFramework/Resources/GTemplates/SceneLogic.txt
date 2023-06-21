@@ -1,0 +1,14 @@
+﻿using JetBrains.Annotations;
+using GFramework.Runner;
+using GFramework.Logger;
+using Zenject;
+
+namespace $[namespace]
+{
+    [UsedImplicitly]
+    public class $[sceneName]Logic
+    {
+        [Inject] private ILogger _logger;
+        [Inject] private IRunner _runner;
+    }
+}

@@ -1,0 +1,8 @@
+﻿namespace $[namespace]
+{
+	public static class $[className]
+	{
+$[body]
+	}
+}
+

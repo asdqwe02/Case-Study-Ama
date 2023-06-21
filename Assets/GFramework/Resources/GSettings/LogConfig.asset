@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e2f6f429b7a409d82764cd824068e5c, type: 3}
+  m_Name: LogConfig
+  m_EditorClassIdentifier: 
+  _enableEditorConsoleLogging: 1
+  _minimumEditorConsoleLogLevel: 0
+  _enableFileLogging: 1
+  _minimumFileLogLevel: 0
+  _debugInfoLogColor: {r: 0.1333332, g: 1, b: 0, a: 1}
+  _warningLogColor: {r: 1, g: 0.91147983, b: 0, a: 0}
+  _errorLogColor: {r: 1, g: 0.2204332, b: 0.19339621, a: 1}

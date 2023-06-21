@@ -1,0 +1,39 @@
+﻿using GFramework.Scene;
+using Zenject;
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditor.SceneManagement;
+#endif
+
+// ReSharper disable once CheckNamespace
+namespace $[namespace]
+{
+	public class $[sceneName]Controller : SceneController
+	{
+	    [Inject] private $[sceneName]Logic _logic;
+		//This function call when our scene is being loaded
+		public override void OnSceneLoaded (object data)
+		{
+			base.OnSceneLoaded (data);
+		}
+
+		//This function call when our scene is being removed/unloaded
+		public override void OnSceneUnloaded ()
+		{
+			base.OnSceneUnloaded ();
+		}
+
+		
+#if UNITY_EDITOR
+		[MenuItem("GFramework/Open Scene/$[sceneName]")]
+		public static void OpenScene$[sceneName]()
+		{
+			if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+			{
+				EditorSceneManager.OpenScene(@"$[scenePath]");
+			}
+		}
+#endif
+	}
+}
+
