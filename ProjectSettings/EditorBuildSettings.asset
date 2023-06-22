@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/CaseStudy/Scenes/MusicNightBattle/Scenes/MusicNightBattle.unity
+    guid: 21511aa012b548f498f805fd20a79618
   m_configObjects: {}
