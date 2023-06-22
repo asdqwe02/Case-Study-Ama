@@ -68,6 +68,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
                 if (timeStamp + marginOfError <= audioTime)
                 {
                     Miss();
+                    Debug.Log($"miss position: {_notes[_inputIndex].transform.localPosition}");
                     Debug.Log($"Missed {_inputIndex} note");
                     _inputIndex++;
                 }
@@ -77,11 +78,13 @@ namespace CaseStudy.Scripts.MusicNightBattle
         private void Miss()
         {
             // miss note implementation
+            ScoreManager.Instance.MissSFX();
         }
 
         private void Hit()
         {
             // hit note implementation
+            ScoreManager.Instance.HitSFX();
         }
     }
 }

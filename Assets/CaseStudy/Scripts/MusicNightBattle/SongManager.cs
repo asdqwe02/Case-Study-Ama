@@ -55,7 +55,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
                 lane.SetTimeStamp(noteArray);
             }
 
-            PlaySongDelay(_songDelayInSeconds);
+            StartCoroutine(PlaySongDelay(_songDelayInSeconds));
         }
 
         // async void PlaySongDelay(float delayInSeconds)
