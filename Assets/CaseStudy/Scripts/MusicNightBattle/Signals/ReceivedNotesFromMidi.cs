@@ -1,6 +1,6 @@
 ﻿namespace CaseStudy.Scripts.MusicNightBattle.Signals
 {
-    public class RecievedNoteFromMidi
+    public class ReceivedNotesFromMidi
     {
         public Melanchall.DryWetMidi.Interaction.Note[] Notes;
     }

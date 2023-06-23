@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using CaseStudy.DesignPattern;
+using CaseStudy.Scripts.MusicNightBattle.Managers;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace CaseStudy.Scripts.MusicNightBattle
 {
@@ -21,6 +23,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
         public bool Started => _started;
         private List<Lane> _laneFinished = new ();
 
+        [Inject] private ISongController _songController;
         private void Awake()
         {
             _startButton.onClick.AddListener(StartButtonClick);
@@ -36,7 +39,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
         {
             _titleScreen.SetActive(false);
             _mainGameUI.SetActive(true);
-            SongManager.Instance.StartSong();
+            _songController.StartSong();
             _started = true;
         }
 
@@ -48,7 +51,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
             _tryAgainButton.gameObject.SetActive(true);
             _titleScreen.SetActive(true);
             _mainGameUI.SetActive(false);
-            SongManager.Instance.Restart();
+            _songController.Restart();
             ScoreManager.Instance.Restart();
         }
 

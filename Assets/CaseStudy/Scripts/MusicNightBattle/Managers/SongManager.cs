@@ -5,7 +5,7 @@ using Melanchall.DryWetMidi.Core;
 using Melanchall.DryWetMidi.Interaction;
 using UnityEngine;
 
-namespace CaseStudy.Scripts.MusicNightBattle
+namespace CaseStudy.Scripts.MusicNightBattle.Managers
 {
     public class SongManager : MonoSingleton<SongManager>
     {

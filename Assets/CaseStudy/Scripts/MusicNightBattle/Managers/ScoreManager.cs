@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CaseStudy.DesignPattern;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CaseStudy.Scripts.MusicNightBattle
+namespace CaseStudy.Scripts.MusicNightBattle.Managers
 {
     public class ScoreManager : MonoSingleton<ScoreManager>
     {

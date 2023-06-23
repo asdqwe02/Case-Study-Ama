@@ -1,6 +1,7 @@
 using System;
 using CaseStudy.Scripts.MusicNightBattle;
 using CaseStudy.Scripts.MusicNightBattle.Configs;
+using CaseStudy.Scripts.MusicNightBattle.Managers;
 using GFramework.Scene;
 using Microsoft.Win32.SafeHandles;
 using UnityEngine;
@@ -19,7 +20,7 @@ namespace CaseStudy.Scenes.MusicNightBattle
         [SerializeField] private AudioSource _beatSFXAudioSource;
         [SerializeField] private AudioSource _missSFXAudioSource;
         [Inject] private MusicNightBattleLogic _logic;
-        [Inject] private SongController _songController;
+        [Inject] private ISongController _songController;
         [Inject] private SongConfig _songConfig;
 
         private void Awake()

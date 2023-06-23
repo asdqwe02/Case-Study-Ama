@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using CaseStudy.Scripts.MusicNightBattle.Configs;
+using CaseStudy.Scripts.MusicNightBattle.Managers;
+using CaseStudy.Scripts.MusicNightBattle.Signals;
 using Melanchall.DryWetMidi.Interaction;
-using ModestTree;
 using UnityEngine;
 using Zenject;
 
@@ -18,10 +19,32 @@ namespace CaseStudy.Scripts.MusicNightBattle
         public List<double> TimeStamps; // in second
         private int _spawnIndex = 0;
         private int _inputIndex = 0;
-        private bool finished = false;
-        [Inject] private SongController _songController;
+        private bool _finished = false;
+        [Inject] private ISongController _songController;
         [Inject] private SongConfig _songConfig;
         [Inject] private SignalBus _signalBus;
+        [Inject] private DiContainer _container;
+
+        private void Awake()
+        {
+            _signalBus.Subscribe<ReceivedNotesFromMidi>(OnReceivedNotes);
+            _signalBus.Subscribe<SongRestartSignal>(OnSongRestart);
+        }
+
+        private void OnSongRestart(SongRestartSignal obj)
+        {
+            Restart();
+        }
+
+        private void OnReceivedNotes(ReceivedNotesFromMidi obj)
+        {
+            SetTimeStamp(obj.Notes);
+        }
+
+        private void OnDestroy()
+        {
+            _signalBus.Unsubscribe<ReceivedNotesFromMidi>(OnReceivedNotes);
+        }
 
         public void SetTimeStamp(Melanchall.DryWetMidi.Interaction.Note[] noteArray)
         {
@@ -30,7 +53,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
             {
                 // note.Time depend on the Midi time so need to convert it back to metric time
                 var metricTimeSpan =
-                    TimeConverter.ConvertTo<MetricTimeSpan>(note.Time, SongManager.Instance.MidiFile.GetTempoMap());
+                    TimeConverter.ConvertTo<MetricTimeSpan>(note.Time, _songController.GetMidiFile().GetTempoMap());
                 TimeStamps.Add((double)metricTimeSpan.Minutes * 60f + metricTimeSpan.Seconds +
                                (double)metricTimeSpan.Milliseconds / 1000f);
             }
@@ -42,10 +65,12 @@ namespace CaseStudy.Scripts.MusicNightBattle
             {
                 if (_spawnIndex < TimeStamps.Count)
                 {
-                    if (SongManager.GetAudioSourceTime() >= TimeStamps[_spawnIndex] - _songConfig.NoteTime)
+                    if (_songController.GetAudioSourceTime() >= TimeStamps[_spawnIndex] - _songConfig.NoteTime)
                     {
                         // spawn note
-                        var note = Instantiate(NotePrefab, transform).GetComponent<Note>();
+                        // var note = Instantiate(NotePrefab, transform).GetComponent<Note>();
+                        var note = _container.InstantiatePrefab(NotePrefab, transform)
+                            .GetComponent<Note>(); // could cause error
                         note.SetUp(_input);
                         _notes.Add(note);
                         note.AssignedTime = (float)TimeStamps[_spawnIndex];
@@ -56,9 +81,9 @@ namespace CaseStudy.Scripts.MusicNightBattle
                 if (_inputIndex < TimeStamps.Count)
                 {
                     double timeStamp = TimeStamps[_inputIndex];
-                    double marginOfError = SongManager.Instance.MarginOfError;
-                    double audioTime = SongManager.GetAudioSourceTime() -
-                                       (SongManager.Instance.InputDelayInMilliseconds / 1000.0);
+                    double marginOfError = _songConfig.MarginOfError;
+                    double audioTime = _songController.GetAudioSourceTime() -
+                                       (_songConfig.InputDelayInMilliseconds / 1000.0);
 
                     // Process keyboard input
                     if (Input.GetKeyDown(_input))
@@ -89,9 +114,9 @@ namespace CaseStudy.Scripts.MusicNightBattle
                     }
                 }
 
-                else if (transform.childCount == 0 && !finished)
+                else if (transform.childCount == 0 && !_finished)
                 {
-                    finished = true;
+                    _finished = true;
                     GameManager.Instance.AddFinishedLane(this);
                 }
             }
@@ -113,7 +138,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
         {
             _spawnIndex = 0;
             _inputIndex = 0;
-            finished = false;
+            _finished = false;
             _notes.Clear();
             TimeStamps.Clear();
         }
@@ -123,9 +148,9 @@ namespace CaseStudy.Scripts.MusicNightBattle
             if (_inputIndex < TimeStamps.Count)
             {
                 double timeStamp = TimeStamps[_inputIndex];
-                double marginOfError = SongManager.Instance.MarginOfError;
-                double audioTime = SongManager.GetAudioSourceTime() -
-                                   (SongManager.Instance.InputDelayInMilliseconds / 1000.0);
+                double marginOfError = _songConfig.MarginOfError;
+                double audioTime = _songController.GetAudioSourceTime() -
+                                   (_songConfig.InputDelayInMilliseconds / 1000.0);
                 if (Math.Abs(audioTime - timeStamp) < marginOfError)
                 {
                     Hit();

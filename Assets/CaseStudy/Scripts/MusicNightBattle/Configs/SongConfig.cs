@@ -15,12 +15,13 @@ namespace CaseStudy.Scripts.MusicNightBattle.Configs
         public int InputDelayInMilliseconds;
         public float MarginOfError;
         public float NoteTime;
-        
+
         public float NoteSpawnY;
         public float NoteTapY;
-        
+
         public string FilePath;
 
+        public float NoteDespawnY => NoteTapY - (NoteSpawnY - NoteTapY);
         // public float NoteSpawnY;
         // public float NoteTapY;
     }
