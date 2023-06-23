@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using CaseStudy.DesignPattern;
 using Melanchall.DryWetMidi.Core;
@@ -25,24 +26,32 @@ namespace CaseStudy.Scripts.MusicNightBattle
         public float NoteDespawnY => _noteTapY - (_noteSpawnY - _noteTapY);
         public float MarginOfError => _marginOfError;
         public int InputDelayInMilliseconds => _inputDelayInMilliseconds;
-        [SerializeField] private MidiFile _midiFile;
+        private MidiFile _midiFile;
         public MidiFile MidiFile => _midiFile;
-        public double debugAudioSourceTime;
-
-        private void Start()
+        public double debugSongTime;
+        public void StartSong()
         {
             ReadFromFile();
-        }
-
-        private void Update()
-        {
-            debugAudioSourceTime = GetAudioSourceTime();
         }
 
         void ReadFromFile()
         {
             _midiFile = _midiFile = MidiFile.Read(Application.streamingAssetsPath + "/" + _filePath);
             GetDataFromMidi();
+        }
+
+        private void Update()
+        {
+            debugSongTime = GetAudioSourceTime();
+        }
+
+        public void Restart()
+        {
+            _audioSource.Stop();
+            foreach (var lane in _lanes)
+            {
+                lane.Restart();
+            }
         }
 
         void GetDataFromMidi()
