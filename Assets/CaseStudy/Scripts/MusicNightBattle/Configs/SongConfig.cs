@@ -14,7 +14,7 @@ namespace CaseStudy.Scripts.MusicNightBattle.Configs
         public float SongDelayInSeconds;
         public int InputDelayInMilliseconds;
         public float MarginOfError;
-        public float NoteTime;
+        public float NoteTime; // Time until note hit the tap zone
 
         public float NoteSpawnY;
         public float NoteTapY;

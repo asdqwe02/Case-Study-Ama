@@ -17,7 +17,7 @@ MonoBehaviour:
   MissSFX: {fileID: 8300000, guid: 0fcc651e8d7bc4649af2dfc2c732c802, type: 3}
   SongDelayInSeconds: 0
   InputDelayInMilliseconds: 0
-  MarginOfError: 0.1
+  MarginOfError: 0.25
   NoteTime: 1
   NoteSpawnY: 0
   NoteTapY: -8.5

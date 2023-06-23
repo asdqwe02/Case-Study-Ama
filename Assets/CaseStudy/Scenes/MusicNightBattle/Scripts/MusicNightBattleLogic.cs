@@ -10,7 +10,8 @@ namespace CaseStudy.Scenes.MusicNightBattle
     {
         [Inject] private ILogger _logger;
         [Inject] private IRunner _runner;
-        
+        private bool _started = false;
+        public bool Started => _started;
         
     }
 }
