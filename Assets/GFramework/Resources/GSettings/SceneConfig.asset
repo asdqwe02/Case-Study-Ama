@@ -12,13 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e40222f4c5e4b899e3a0dfdb2a46015, type: 3}
   m_Name: SceneConfig
   m_EditorClassIdentifier: 
-  Scenes: []
-  StartingScene:
+  _scenes:
+  - SceneName: MusicNightBattle
+    ScenePath: Assets/CaseStudy/Scenes/MusicNightBattle/Scenes/MusicNightBattle.unity
+    LoadPath: CaseStudy/Scenes/MusicNightBattle/Scenes/MusicNightBattle
+    DeletePath: Assets\CaseStudy/Scenes\MusicNightBattle
+  _startingScene:
     SceneName: 
     ScenePath: 
     LoadPath: 
     DeletePath: 
-  SceneRootPath: PKFramework/Examples/SceneExample
-  SceneDefineFileSavePath: PKFramework/Examples/SceneExample
-  SceneDefineFileName: SceneDefine
+  _sceneRootPath: CaseStudy/Scenes
+  _sceneDefineFileSavePath: CaseStudy/Scenes
+  _sceneDefineFileName: SceneDefines
   SceneWaitingForComponents: 

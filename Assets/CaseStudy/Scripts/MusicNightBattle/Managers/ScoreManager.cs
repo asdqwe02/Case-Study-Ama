@@ -1,0 +1,71 @@
+﻿using System;
+using System.Collections.Generic;
+using CaseStudy.DesignPattern;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace CaseStudy.Scripts.MusicNightBattle
+{
+    public class ScoreManager : MonoSingleton<ScoreManager>
+    {
+        [SerializeField] private AudioSource _hitSFX;
+        [SerializeField] private AudioSource _missSFX;
+        [SerializeField] private Slider _leftCharacterHPSlider;
+        [SerializeField] private Slider _rightCharacterHPSlider;
+        [SerializeField] private int _playerScore = 5;
+        [SerializeField] private int _maxScore = 10;
+        [SerializeField] private int _missPenalty = 4;
+        private List<int> _initialValue = new();
+
+        private void Awake()
+        {
+            CalculateHP();
+            _initialValue.Add(_playerScore);
+            _initialValue.Add(_maxScore);
+            _initialValue.Add(_missPenalty);
+        }
+
+        public void MissSFX()
+        {
+            _missSFX.Play();
+            // _playerScore--;
+            _playerScore = Mathf.Clamp(_playerScore - _missPenalty, 0, _maxScore);
+        }
+
+        public void HitSFX()
+        {
+            _hitSFX.Play();
+            // _playerScore--;
+            _playerScore = Mathf.Clamp(++_playerScore, 0, _maxScore);
+        }
+
+        private void LateUpdate()
+        {
+            if (GameManager.Instance.Started)
+            {
+                CalculateHP(); // not optimize
+            }
+        }
+
+        public void Restart()
+        {
+            Debug.Log("Score reset");
+            _playerScore = _initialValue[0];
+            _maxScore = _initialValue[1];
+            _missPenalty = _initialValue[2];
+            _rightCharacterHPSlider.value = (float)_playerScore / _maxScore;
+            _leftCharacterHPSlider.value = (float)(_maxScore - _playerScore) / _maxScore;
+        }
+
+        void CalculateHP()
+        {
+            var rightSliderValue = _rightCharacterHPSlider.value;
+            var leftSliderValue = _leftCharacterHPSlider.value;
+            var rightCharacterHP = (float)_playerScore / _maxScore;
+            var leftCharacterHP = (float)(_maxScore - _playerScore) / _maxScore;
+            _rightCharacterHPSlider.value = Mathf.Lerp(rightSliderValue, rightCharacterHP, 0.2f);
+            _leftCharacterHPSlider.value = Mathf.Lerp(leftSliderValue, leftCharacterHP, 0.2f);
+        }
+    }
+}
