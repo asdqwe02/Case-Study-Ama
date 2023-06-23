@@ -10,5 +10,7 @@ namespace CaseStudy.Scenes.MusicNightBattle
     {
         [Inject] private ILogger _logger;
         [Inject] private IRunner _runner;
+        
+        
     }
 }

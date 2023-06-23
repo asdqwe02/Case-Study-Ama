@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using CaseStudy.DesignPattern;
 using Melanchall.DryWetMidi.Core;
 using Melanchall.DryWetMidi.Interaction;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace CaseStudy.Scripts.MusicNightBattle

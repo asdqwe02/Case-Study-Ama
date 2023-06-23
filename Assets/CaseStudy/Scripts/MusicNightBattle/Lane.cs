@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CaseStudy.Scripts.MusicNightBattle.Configs;
 using Melanchall.DryWetMidi.Interaction;
 using ModestTree;
 using UnityEngine;
+using Zenject;
 
 namespace CaseStudy.Scripts.MusicNightBattle
 {
@@ -17,6 +19,9 @@ namespace CaseStudy.Scripts.MusicNightBattle
         private int _spawnIndex = 0;
         private int _inputIndex = 0;
         private bool finished = false;
+        [Inject] private SongController _songController;
+        [Inject] private SongConfig _songConfig;
+        [Inject] private SignalBus _signalBus;
 
         public void SetTimeStamp(Melanchall.DryWetMidi.Interaction.Note[] noteArray)
         {
@@ -37,7 +42,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
             {
                 if (_spawnIndex < TimeStamps.Count)
                 {
-                    if (SongManager.GetAudioSourceTime() >= TimeStamps[_spawnIndex] - SongManager.Instance.NoteTime)
+                    if (SongManager.GetAudioSourceTime() >= TimeStamps[_spawnIndex] - _songConfig.NoteTime)
                     {
                         // spawn note
                         var note = Instantiate(NotePrefab, transform).GetComponent<Note>();
@@ -134,6 +139,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
                         $"Hit inaccurate on {_inputIndex} note with {Math.Abs(audioTime - timeStamp)} delay");
                 }
             }
+
             GameManager.Instance.ChangeRightCharacterSprite(_input);
         }
     }

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace CaseStudy.Scripts
+namespace CaseStudy.Scripts.MusicNightBattle
 {
     public class CharacterSpriteController : MonoBehaviour
     {

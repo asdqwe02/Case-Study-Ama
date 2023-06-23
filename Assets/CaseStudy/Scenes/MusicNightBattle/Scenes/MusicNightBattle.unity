@@ -565,7 +565,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89715ad69b973a14899afa2c6730b30b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scriptableObjectInstallers: []
+  _scriptableObjectInstallers:
+  - {fileID: 11400000, guid: 161379beee17da74297551f265834e44, type: 2}
   _monoInstallers:
   - {fileID: 338715993}
   _installerPrefabs: []
@@ -3736,6 +3737,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbaa373d94f03c34796564e36099a4a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _songAudioSource: {fileID: 1400303387}
+  _beatSFXAudioSource: {fileID: 1822857809}
+  _missSFXAudioSource: {fileID: 1818026044}
 --- !u!1 &2110108158
 GameObject:
   m_ObjectHideFlags: 0
