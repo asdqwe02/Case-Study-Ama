@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CaseStudy.Scenes.MusicNightBattle.Scripts;
 using CaseStudy.Scripts.MusicNightBattle.Configs;
 using CaseStudy.Scripts.MusicNightBattle.Managers;
 using UnityEngine;
@@ -12,9 +13,10 @@ namespace CaseStudy.Scripts.MusicNightBattle
         public double AssignedTime;
         private SpriteRenderer _spriteRenderer;
         [SerializeField] private List<Sprite> _sprites;
-
+        [SerializeField] private float _horizontalScale;
         [Inject] private ISongController _songController;
         [Inject] private SongConfig _songConfig;
+        [Inject] private MusicNightBattleLogic _logic;
         private float time = 0;
         private Vector3 _spawnPos = Vector3.zero;
         private Vector3 _destinationPos = Vector3.zero;
@@ -27,6 +29,11 @@ namespace CaseStudy.Scripts.MusicNightBattle
         public void SetUp(KeyCode input, Vector3 parentPos) // need improvement later
         {
             transform.localPosition = Vector3.zero;
+            if (_logic.GetAspect() > 1)
+            {
+                transform.localScale = Vector3.one * _horizontalScale;
+            }
+
             _spawnPos = parentPos;
             _destinationPos = new Vector3(parentPos.x, _songConfig.NoteDespawnY, 0);
             var index = -1;

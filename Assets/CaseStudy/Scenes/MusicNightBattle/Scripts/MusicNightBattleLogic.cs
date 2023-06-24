@@ -131,5 +131,10 @@ namespace CaseStudy.Scenes.MusicNightBattle.Scripts
             // _logger.Debug($"{debug}");
             return _mainCamera.ScreenToWorldPoint(new Vector3(x, y, 0));
         }
+
+        public float GetAspect()
+        {
+            return _mainCamera.aspect;
+        }
     }
 }
