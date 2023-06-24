@@ -71,6 +71,7 @@ namespace CaseStudy.Scenes.MusicNightBattle.Scripts
                 case GameState.START:
                     _titleScreen.SetActive(false);
                     _mainGameUI.SetActive(true);
+                    _signalBus.Fire<UpdateLanePositionSignal>();
                     break;
                 case GameState.FINISH:
                     _startButton.gameObject.SetActive(false);

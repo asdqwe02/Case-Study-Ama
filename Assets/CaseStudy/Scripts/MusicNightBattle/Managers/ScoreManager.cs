@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using CaseStudy.DesignPattern;
-using CaseStudy.Scenes.MusicNightBattle;
 using CaseStudy.Scenes.MusicNightBattle.Scripts;
 using CaseStudy.Scripts.MusicNightBattle.Signals;
 using UnityEngine;

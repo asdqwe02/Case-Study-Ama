@@ -23,6 +23,7 @@ namespace CaseStudy.Scenes.MusicNightBattle.Scripts
         public bool Started => _started;
         private List<Lane> _laneFinished = new();
         private int _playerHP;
+        private Camera _mainCamera;
 
         public int PlayerHp
         {
@@ -42,6 +43,7 @@ namespace CaseStudy.Scenes.MusicNightBattle.Scripts
             _signalBus.Subscribe<HitNoteSignal>(OnHitNote);
 
             PlayerHp = _healthBarConfig.PlayerInitalHP;
+            _mainCamera = Camera.main;
         }
 
         private void OnHitNote(HitNoteSignal obj)
@@ -92,6 +94,47 @@ namespace CaseStudy.Scenes.MusicNightBattle.Scripts
             PlayerHp = _healthBarConfig.PlayerInitalHP;
             _laneFinished.Clear();
             _started = true;
+        }
+
+        public Vector3 ScreenToWorldPoint(Vector3 screenPos)
+        {
+            return _mainCamera.ScreenToWorldPoint(screenPos);
+        }
+
+        public Vector3 GetLanePosition(RectTransform rectTransform)
+        {
+            // GOAL: Get x and y screen position of rectTransform and convert them to world space
+
+            /*
+                The WIDTH of layout container for the button is the size of the screen WIDTH
+                so we can just take the x position from rectTransform anchored position for our x screen position
+            */
+            var x = rectTransform.anchoredPosition.x;
+            /*
+                The HEIGHT layout container for the button is NOT the size of the screen HEIGHT
+                so we can't just take the y position from rectTransform anchored position
+                So to get the y screen position we need 
+                    + First get the rectTransform position (middle center anchor) on the root canvas
+                    + Second we calculate the y screen position by using the above y position and subtract it by half of the rectTransform y size   
+                
+                Note: will need to use the absolute value of y of rectTransform position on the root canvas      
+           */
+            var rootCanvas = rectTransform.transform.root;
+            // This position have center middle anchor
+            var uiPosOnCanvas =
+                rootCanvas.InverseTransformPoint(rectTransform.TransformPoint(rectTransform.transform.position));
+            // _logger.Information($"ui pos canvas: {uiPosOnCanvas}");
+            // _logger.Information($"{Input.mousePosition}");
+            var y = Mathf.Abs(uiPosOnCanvas.y) - rectTransform.rect.size.y / 2;
+            // _logger.Information($"screen pos: {x}, {y}");
+            var debug = _mainCamera.ScreenToWorldPoint(new Vector3(607.9053f, 215.9418f, 0));
+            // _logger.Debug($"{debug}");
+            return _mainCamera.ScreenToWorldPoint(new Vector3(x, y, 0));
+        }
+
+        public float GetAspect()
+        {
+            return _mainCamera.aspect;
         }
     }
 }

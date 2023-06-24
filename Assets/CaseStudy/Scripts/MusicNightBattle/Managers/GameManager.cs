@@ -15,7 +15,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
         [SerializeField] private Button _startButton;
         [SerializeField] private Button _tryAgainButton;
         [Inject] private CountdownController _countdownController;
-        [SerializeField] private CharacterSpriteController _rightCharacterSpriteController;
+        [SerializeField] private CharacterVisualController rightCharacterVisualController;
         private bool _started = false;
         public bool Started => _started;
         private List<Lane> _laneFinished = new();
@@ -55,7 +55,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
 
         public void ChangeRightCharacterSprite(KeyCode input)
         {
-            _rightCharacterSpriteController.ChangeSprite(input);
+            rightCharacterVisualController.ChangeSprite(input);
         }
 
         public void AddFinishedLane(Lane lane)
