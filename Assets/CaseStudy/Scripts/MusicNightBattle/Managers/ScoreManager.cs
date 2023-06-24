@@ -28,7 +28,6 @@ namespace CaseStudy.Scripts.MusicNightBattle.Managers
             _initialValue.Add(_playerScore);
             _initialValue.Add(_maxScore);
             _initialValue.Add(_missPenalty);
-            _initialValue.Add(_missPenalty);
             // _signalBus.Subscribe<GameOverSignal>(OnGameOver);
             _signalBus.Subscribe<GameState>(OnGameStateSignal);
         }
@@ -38,7 +37,7 @@ namespace CaseStudy.Scripts.MusicNightBattle.Managers
             switch (obj)
             {
                 case GameState.FINISH:
-                    Restart();
+                    Reset();
                     break;
             }
         }
@@ -70,7 +69,7 @@ namespace CaseStudy.Scripts.MusicNightBattle.Managers
             }
         }
 
-        public void Restart()
+        public void Reset()
         {
             Debug.Log("Score reset");
             _playerScore = _initialValue[0];

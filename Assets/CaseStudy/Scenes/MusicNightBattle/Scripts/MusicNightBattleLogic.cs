@@ -24,7 +24,19 @@ namespace CaseStudy.Scenes.MusicNightBattle
         public void Init()
         {
             _signalBus.Subscribe<CountDownState>(OnCountDownStateSignal);
-            _signalBus.Subscribe<LaneFInishSingal>(OnLaneFinished);
+            _signalBus.Subscribe<LaneFinishedSignal>(OnLaneFinished);
+            _signalBus.Subscribe<MissNoteSignal>(OnMissNote);
+            _signalBus.Subscribe<HitNoteSignal>(OnHitNote);
+        }
+
+        private void OnHitNote(HitNoteSignal obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnMissNote(MissNoteSignal obj)
+        {
+            throw new NotImplementedException();
         }
 
         private void OnCountDownStateSignal(CountDownState obj)
@@ -36,7 +48,7 @@ namespace CaseStudy.Scenes.MusicNightBattle
             }
         }
 
-        private void OnLaneFinished(LaneFInishSingal obj)
+        private void OnLaneFinished(LaneFinishedSignal obj)
         {
             if (!_laneFinished.Contains(obj.Lane))
             {

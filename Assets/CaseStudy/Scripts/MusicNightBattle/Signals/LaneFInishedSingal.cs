@@ -1,6 +1,6 @@
 ﻿namespace CaseStudy.Scripts.MusicNightBattle.Signals
 {
-    public class LaneFInishSingal
+    public struct LaneFinishedSignal
     {
         public Lane Lane;
     }

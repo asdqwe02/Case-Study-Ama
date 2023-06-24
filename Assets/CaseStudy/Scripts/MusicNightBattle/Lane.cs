@@ -172,7 +172,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
                             $"Hit inaccurate on {_inputIndex} note with {Math.Abs(audioTime - timeStamp)} delay");
                     }
 
-                    _signalBus.Fire(new ChangePlayerSpriteSignal
+                    _signalBus.Fire(new ChangeCharacterSprite
                     {
                         Input = _input
                     });
@@ -182,7 +182,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
                 if (timeStamp + marginOfError <= audioTime)
                 {
                     Miss();
-                    _signalBus.Fire(new ChangePlayerSpriteSignal
+                    _signalBus.Fire(new ChangeCharacterSprite
                     {
                         Input = KeyCode.None
                     });
@@ -196,7 +196,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
             {
                 _finished = true;
                 StopAllCoroutines();
-                _signalBus.Fire(new LaneFInishSingal
+                _signalBus.Fire(new LaneFinishedSignal
                 {
                     Lane = this
                 });
@@ -225,7 +225,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
                 }
             }
 
-            _signalBus.Fire(new ChangePlayerSpriteSignal
+            _signalBus.Fire(new ChangeCharacterSprite
             {
                 Input = _input
             });

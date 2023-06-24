@@ -17,11 +17,11 @@ namespace CaseStudy.Scripts.MusicNightBattle
             _spriteRenderer = GetComponent<SpriteRenderer>();
             if (_player)
             {
-                _signalBus.Subscribe<ChangePlayerSpriteSignal>(OnChangePlayerSprite);
+                _signalBus.Subscribe<ChangeCharacterSprite>(OnChangeCharacterSprite);
             }
         }
 
-        private void OnChangePlayerSprite(ChangePlayerSpriteSignal obj)
+        private void OnChangeCharacterSprite(ChangeCharacterSprite obj)
         {
             ChangeSprite(obj.Input);
         }

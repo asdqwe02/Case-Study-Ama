@@ -50,7 +50,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
             _titleScreen.SetActive(true);
             _mainGameUI.SetActive(false);
             _songController.Restart();
-            ScoreManager.Instance.Restart();
+            ScoreManager.Instance.Reset();
         }
 
         public void ChangeRightCharacterSprite(KeyCode input)
