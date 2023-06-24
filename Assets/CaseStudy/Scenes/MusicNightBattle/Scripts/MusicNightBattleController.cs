@@ -45,32 +45,40 @@ namespace CaseStudy.Scenes.MusicNightBattle
             // controller initialization
             _songController.Init(_songAudioSource);
             _logic.Init();
-            
+
             // signal bus subscription
-            _signalBus.Subscribe<StartGameSIgnal>(OnStartGame);
-            _signalBus.Subscribe<GameOverSignal>(OnGameOver);
+            _signalBus.Subscribe<GameState>(OnGameState);
+            // _signalBus.Subscribe<GameOverSignal>(OnGameOver);
         }
 
-        private void OnGameOver(GameOverSignal obj)
+        private void OnGameState(GameState obj)
         {
-            _startButton.gameObject.SetActive(false);
-            _tryAgainButton.gameObject.SetActive(true);
-            _titleScreen.SetActive(true);
-            _mainGameUI.SetActive(false);
+            switch (obj)
+            {
+                case GameState.START:
+                    _titleScreen.SetActive(false);
+                    _mainGameUI.SetActive(true);
+                    break;
+                case GameState.FINISH:
+                    _startButton.gameObject.SetActive(false);
+                    _tryAgainButton.gameObject.SetActive(true);
+                    _titleScreen.SetActive(true);
+                    _mainGameUI.SetActive(false);
+                    break;
+            }
         }
 
-        private void OnStartGame(StartGameSIgnal obj)
-        {
-            _titleScreen.SetActive(false);
-            _mainGameUI.SetActive(true);
-        }
+        // private void OnGameOver(GameOverSignal obj)
+        // {
+        //     _startButton.gameObject.SetActive(false);
+        //     _tryAgainButton.gameObject.SetActive(true);
+        //     _titleScreen.SetActive(true);
+        //     _mainGameUI.SetActive(false);
+        // }
 
         public void StartButtonClick()
         {
-            _signalBus.Fire(new CountDownSignal
-            {
-                State = CountDownSignal.CountDownState.START
-            });
+            _signalBus.Fire(CountDownState.START);
         }
 
         //This function call when our scene is being loaded

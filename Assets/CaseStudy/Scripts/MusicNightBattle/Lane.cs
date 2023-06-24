@@ -31,14 +31,25 @@ namespace CaseStudy.Scripts.MusicNightBattle
         private void Awake()
         {
             _signalBus.Subscribe<ReceivedNotesFromMidi>(OnReceivedNotes);
-            _signalBus.Subscribe<GameOverSignal>(OnGameOver);
+            // _signalBus.Subscribe<GameOverSignal>(OnGameOver);
+            _signalBus.Subscribe<GameState>(OnGameStateSignal);
         }
 
-        private void OnGameOver(GameOverSignal obj)
+        private void OnGameStateSignal(GameState obj)
         {
-            StopAllCoroutines();
-            // Reset();
+            switch (obj)
+            {
+                case GameState.FINISH:
+                    StopAllCoroutines();
+                    break;
+            }
         }
+
+        // private void OnGameOver(GameOverSignal obj)
+        // {
+        //     StopAllCoroutines();
+        //     // Reset();
+        // }
 
 
         private void OnReceivedNotes(ReceivedNotesFromMidi obj)

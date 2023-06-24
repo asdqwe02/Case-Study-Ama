@@ -23,23 +23,22 @@ namespace CaseStudy.Scripts.MusicNightBattle
                 countdownSpriteRenderer.sprite = _sprites[0];
                 countdownSpriteRenderer.enabled = false;
             }
-
-            _signalBus.Subscribe<CountDownSignal>(OnCountDownSignal);
+            
+            _signalBus.Subscribe<CountDownState>(OnCountDownStateSignal);
         }
 
-        private void OnCountDownSignal(CountDownSignal obj)
+        private void OnCountDownStateSignal(CountDownState obj)
         {
-            switch (obj.State)
+            switch (obj)
             {
-                case CountDownSignal.CountDownState.START:
+                case CountDownState.START:
                     StartCountDown();
                     break;
-                case CountDownSignal.CountDownState.FINISH:
+                case CountDownState.FINISH:
                     CountdownFinish();
                     break;
             }
         }
-
         public void CountdownFinish()
         {
             foreach (var countdownSpriteRenderer in _countdownSpriteRenderers)
@@ -50,7 +49,6 @@ namespace CaseStudy.Scripts.MusicNightBattle
 
             _animator.enabled = false;
             _spriteIndex = 0;
-            // GameManager.Instance.StartGame();
         }
 
         public void StartCountDown()
@@ -68,11 +66,8 @@ namespace CaseStudy.Scripts.MusicNightBattle
             _spriteIndex++;
             if (_spriteIndex >= _sprites.Count)
             {
-                 Debug.Log("countdown finisih signal");
-                _signalBus.Fire(new CountDownSignal
-                {
-                    State = CountDownSignal.CountDownState.FINISH
-                });
+                Debug.Log("countdown finisih signal");
+                _signalBus.Fire(CountDownState.FINISH);
                 return;
             }
 

@@ -9,10 +9,12 @@ namespace CaseStudy.Scripts.MusicNightBattle.Configs
     public class MusicNightBattleConfigInstaller : ScriptableObjectInstaller
     {
         [SerializeField] private SongConfig _songConfig;
+        [SerializeField] private HealthBarConfig _healthBarConfig;
 
         public override void InstallBindings()
         {
             Container.BindInstance(_songConfig);
+            Container.BindInstance(_healthBarConfig);
         }
     }
 }

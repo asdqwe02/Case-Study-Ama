@@ -4,7 +4,6 @@ using CaseStudy.Scripts.MusicNightBattle;
 using CaseStudy.Scripts.MusicNightBattle.Signals;
 using JetBrains.Annotations;
 using GFramework.Runner;
-using UnityEngine;
 using Zenject;
 using ILogger = GFramework.Logger.ILogger;
 
@@ -24,8 +23,17 @@ namespace CaseStudy.Scenes.MusicNightBattle
 
         public void Init()
         {
-            _signalBus.Subscribe<CountDownSignal>(OnCountDownSignal);
+            _signalBus.Subscribe<CountDownState>(OnCountDownStateSignal);
             _signalBus.Subscribe<LaneFInishSingal>(OnLaneFinished);
+        }
+
+        private void OnCountDownStateSignal(CountDownState obj)
+        {
+            if (obj == CountDownState.FINISH)
+            {
+                Reset();
+                _signalBus.Fire(GameState.START);
+            }
         }
 
         private void OnLaneFinished(LaneFInishSingal obj)
@@ -39,18 +47,19 @@ namespace CaseStudy.Scenes.MusicNightBattle
             {
                 _logger.Information("game over");
                 _started = false;
-                _signalBus.Fire<GameOverSignal>();
+                _signalBus.Fire(GameState.FINISH);
             }
         }
 
-        private void OnCountDownSignal(CountDownSignal obj)
-        {
-            if (obj.State == CountDownSignal.CountDownState.FINISH)
-            {
-                Reset();
-                _signalBus.Fire<StartGameSIgnal>();
-            }
-        }
+        // private void OnCountDownSignal(CountDownSignal obj)
+        // {
+        //     if (obj.State == CountDownState.FINISH)
+        //     {
+        //         Reset();
+        //         // _signalBus.Fire<StartGameSignal>();
+        //         _signalBus.Fire(GameState.START);
+        //     }
+        // }
 
         public void Reset()
         {

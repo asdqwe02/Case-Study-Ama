@@ -28,13 +28,25 @@ namespace CaseStudy.Scripts.MusicNightBattle.Managers
             _initialValue.Add(_playerScore);
             _initialValue.Add(_maxScore);
             _initialValue.Add(_missPenalty);
-            _signalBus.Subscribe<GameOverSignal>(OnGameOver);
+            _initialValue.Add(_missPenalty);
+            // _signalBus.Subscribe<GameOverSignal>(OnGameOver);
+            _signalBus.Subscribe<GameState>(OnGameStateSignal);
         }
 
-        private void OnGameOver(GameOverSignal obj)
+        private void OnGameStateSignal(GameState obj)
         {
-            Restart();
+            switch (obj)
+            {
+                case GameState.FINISH:
+                    Restart();
+                    break;
+            }
         }
+
+        // private void OnGameOver(GameOverSignal obj)
+        // {
+        //     Restart();
+        // }
 
         public void MissSFX()
         {

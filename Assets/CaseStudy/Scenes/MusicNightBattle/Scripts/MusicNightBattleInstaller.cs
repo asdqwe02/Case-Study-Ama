@@ -20,12 +20,13 @@ namespace CaseStudy.Scenes.MusicNightBattle
             SignalBusInstaller.Install(Container);
             Container.DeclareSignal<ReceivedNotesFromMidi>();
             Container.DeclareSignal<ChangePlayerSpriteSignal>();
-            Container.DeclareSignal<StartGameSIgnal>();
-            Container.DeclareSignal<GameOverSignal>();
+            // Container.DeclareSignal<GameOverSignal>();
             Container.DeclareSignal<HitNoteSignal>();
             Container.DeclareSignal<MissNoteSignal>();
-            Container.DeclareSignal<CountDownSignal>();
             Container.DeclareSignal<LaneFInishSingal>();
+            Container.DeclareSignal<UpdateScoreSignal>();
+            Container.DeclareSignal<GameState>();
+            Container.DeclareSignal<CountDownState>();
         }
     }
 }

@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75aeb07b229a415492deb2cbecc3c6e2, type: 3}
-  m_Name: MusicNightBattleConfigInstaller
+  m_Script: {fileID: 11500000, guid: 85261a7d8a444811b7009bdb32e4b8a0, type: 3}
+  m_Name: HPConfig
   m_EditorClassIdentifier: 
-  _songConfig: {fileID: 11400000, guid: 8568d466bb1098c488e7daa7aebd213c, type: 2}
-  _healthBarConfig: {fileID: 11400000, guid: 36ab0ce3f03532b41b88e4460d01ed8c, type: 2}
+  _playerHP: 10
+  _maxHP: 20
+  _missPenalty: 2

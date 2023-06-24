@@ -22,20 +22,28 @@ namespace CaseStudy.Scripts.MusicNightBattle.Managers
         public void Init(AudioSource audioSource)
         {
             _audioSource = audioSource;
-            
-            _signalBus.Subscribe<GameOverSignal>(OnGameOver);
-            _signalBus.Subscribe<StartGameSIgnal>(OnGameStart);
+
+            // _signalBus.Subscribe<GameState>(OnGameOver);
+            _signalBus.Subscribe<GameState>(OnGameState);
         }
 
-        private void OnGameStart(StartGameSIgnal obj)
+        private void OnGameState(GameState obj)
         {
-            StartSong();
+            switch (obj)
+            {
+                case GameState.START:
+                    StartSong();
+                    break;
+                case GameState.FINISH:
+                    Restart();
+                    break;
+            }
         }
 
-        private void OnGameOver(GameOverSignal obj)
-        {
-            Restart();
-        }
+        // private void OnGameOver(GameOverSignal obj)
+        // {
+        //     Restart();
+        // }
 
         public void StartSong()
         {
@@ -63,11 +71,11 @@ namespace CaseStudy.Scripts.MusicNightBattle.Managers
             var notes = _midiFile.GetNotes();
             var noteArray = new Melanchall.DryWetMidi.Interaction.Note[notes.Count];
             notes.CopyTo(noteArray, 0);
+            _runner.StartCoroutine(PlaySongDelay(_songConfig.SongDelayInSeconds));
             _signalBus.Fire(new ReceivedNotesFromMidi
             {
                 Notes = noteArray
             });
-            _runner.StartCoroutine(PlaySongDelay(_songConfig.SongDelayInSeconds));
         }
 
         public IEnumerator PlaySongDelay(float delayTime)
