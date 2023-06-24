@@ -237,12 +237,12 @@ namespace CaseStudy.Scripts.MusicNightBattle
 
         void UpdateLanePosition()
         {
-            var newLanePos = _logic.GetLanePosition(_laneInputButton.GetComponent<RectTransform>());
+            var buttonWorldPos = _logic.GetLanePosition(_laneInputButton.GetComponent<RectTransform>());
             var pos = transform.position;
-            pos.x = newLanePos.x;
+            pos.x = buttonWorldPos.x;
             transform.position = pos;
-
-            _songConfig.NoteTapY = newLanePos.y;
+            // _logger.Information($"{buttonWorldPos}");
+            _songConfig.NoteTapY = buttonWorldPos.y;
             _songConfig.NoteSpawnY = transform.position.y;
         }
     }

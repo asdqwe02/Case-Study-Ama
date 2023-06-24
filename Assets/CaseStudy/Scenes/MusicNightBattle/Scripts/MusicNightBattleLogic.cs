@@ -110,7 +110,6 @@ namespace CaseStudy.Scenes.MusicNightBattle.Scripts
                 so we can just take the x position from rectTransform anchored position for our x screen position
             */
             var x = rectTransform.anchoredPosition.x;
-
             /*
                 The HEIGHT layout container for the button is NOT the size of the screen HEIGHT
                 so we can't just take the y position from rectTransform anchored position
@@ -124,8 +123,12 @@ namespace CaseStudy.Scenes.MusicNightBattle.Scripts
             // This position have center middle anchor
             var uiPosOnCanvas =
                 rootCanvas.InverseTransformPoint(rectTransform.TransformPoint(rectTransform.transform.position));
-
+            // _logger.Information($"ui pos canvas: {uiPosOnCanvas}");
+            // _logger.Information($"{Input.mousePosition}");
             var y = Mathf.Abs(uiPosOnCanvas.y) - rectTransform.rect.size.y / 2;
+            // _logger.Information($"screen pos: {x}, {y}");
+            var debug = _mainCamera.ScreenToWorldPoint(new Vector3(607.9053f, 215.9418f, 0));
+            // _logger.Debug($"{debug}");
             return _mainCamera.ScreenToWorldPoint(new Vector3(x, y, 0));
         }
     }

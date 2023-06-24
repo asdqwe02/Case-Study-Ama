@@ -28,7 +28,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
         {
             transform.localPosition = Vector3.zero;
             _spawnPos = parentPos;
-            _destinationPos = parentPos + new Vector3(0, _songConfig.NoteDespawnY, 0);
+            _destinationPos = new Vector3(parentPos.x, _songConfig.NoteDespawnY, 0);
             var index = -1;
             switch (input)
             {
@@ -66,8 +66,9 @@ namespace CaseStudy.Scripts.MusicNightBattle
             }
             else
             {
-                transform.position = Vector3.Lerp(_spawnPos,
-                    _destinationPos, t);
+                transform.position = Vector3.Lerp(_spawnPos, _destinationPos, t);
+                // transform.localPosition =
+                // Vector3.Lerp(Vector3.zero, Vector3.up * _songConfig.NoteDespawnY, t);
             }
         }
     }
