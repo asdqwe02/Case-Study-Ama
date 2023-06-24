@@ -6,13 +6,13 @@ namespace CaseStudy.Scripts.MusicNightBattle.Managers
 {
     public interface ISongController
     {
-        public void Init(AudioSource audioSource);
-        public void StartSong();
-        public void Restart();
+        void Init(AudioSource audioSource);
+        void StartSong();
+        void Restart();
         void ReadMidiFromFile();
         void GetDataFromMidiFile();
         IEnumerator PlaySongDelay(float delayTime);
         double GetAudioSourceTime();
-        public MidiFile GetMidiFile();
+        MidiFile GetMidiFile();
     }
 }

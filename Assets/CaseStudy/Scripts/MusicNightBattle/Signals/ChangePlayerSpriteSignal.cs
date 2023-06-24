@@ -2,7 +2,7 @@
 
 namespace CaseStudy.Scripts.MusicNightBattle.Signals
 {
-    public class ChangePlayerSpriteSignal
+    public class ChangePlayerSpriteSignal //TODO: rename this
     {
         public KeyCode Input;
     }
