@@ -18,7 +18,8 @@ MonoBehaviour:
   SongDelayInSeconds: 0
   InputDelayInMilliseconds: 0
   MarginOfError: 0.15
+  PerfectHitMargin: {x: 0.05, y: 0.075}
   NoteTime: 1
   NoteSpawnY: 0
-  NoteTapY: -8.5
+  NoteTapY: -3.4
   FilePath: Song-beat-chart.mid

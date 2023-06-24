@@ -1,5 +1,4 @@
 ﻿using System;
-using Melanchall.DryWetMidi.Core;
 using UnityEngine;
 
 namespace CaseStudy.Scripts.MusicNightBattle.Configs
@@ -14,6 +13,7 @@ namespace CaseStudy.Scripts.MusicNightBattle.Configs
         public float SongDelayInSeconds;
         public int InputDelayInMilliseconds;
         public float MarginOfError;
+        public Vector2 PerfectHitMargin;
         public float NoteTime; // Time until note hit the tap zone
 
         public float NoteSpawnY;
@@ -22,7 +22,5 @@ namespace CaseStudy.Scripts.MusicNightBattle.Configs
         public string FilePath;
 
         public float NoteDespawnY => NoteTapY - (NoteSpawnY - NoteTapY);
-        // public float NoteSpawnY;
-        // public float NoteTapY;
     }
 }

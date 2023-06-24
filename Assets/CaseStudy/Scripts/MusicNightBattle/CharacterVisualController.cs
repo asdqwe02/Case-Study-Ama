@@ -5,7 +5,7 @@ using Zenject;
 
 namespace CaseStudy.Scripts.MusicNightBattle
 {
-    public class CharacterSpriteController : MonoBehaviour
+    public class CharacterVisualController : MonoBehaviour
     {
         [SerializeField] private List<Sprite> _sprites;
         [SerializeField] private bool _player;
@@ -21,7 +21,9 @@ namespace CaseStudy.Scripts.MusicNightBattle
             }
         }
 
-        private void OnChangeCharacterSprite(ChangeCharacterSprite obj)
+        // change character visual by changing sprite for now 
+        // will switch to change animation state when have asset
+        private void OnChangeCharacterSprite(ChangeCharacterSprite obj) 
         {
             ChangeSprite(obj.Input);
         }
@@ -31,16 +33,16 @@ namespace CaseStudy.Scripts.MusicNightBattle
             switch (input)
             {
                 case KeyCode.RightArrow:
-                    _spriteRenderer.sprite = _sprites[1];
-                    break;
-                case KeyCode.LeftArrow:
-                    _spriteRenderer.sprite = _sprites[2];
-                    break;
-                case KeyCode.UpArrow:
                     _spriteRenderer.sprite = _sprites[3];
                     break;
-                case KeyCode.DownArrow:
+                case KeyCode.LeftArrow:
+                    _spriteRenderer.sprite = _sprites[1];
+                    break;
+                case KeyCode.UpArrow:
                     _spriteRenderer.sprite = _sprites[4];
+                    break;
+                case KeyCode.DownArrow:
+                    _spriteRenderer.sprite = _sprites[2];
                     break;
                 default:
                     _spriteRenderer.sprite = _sprites[0];

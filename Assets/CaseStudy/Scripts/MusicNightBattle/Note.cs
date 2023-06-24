@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CaseStudy.Scripts.MusicNightBattle.Configs;
 using CaseStudy.Scripts.MusicNightBattle.Managers;
 using UnityEngine;
@@ -16,14 +15,20 @@ namespace CaseStudy.Scripts.MusicNightBattle
 
         [Inject] private ISongController _songController;
         [Inject] private SongConfig _songConfig;
+        private float time = 0;
+        private Vector3 _spawnPos = Vector3.zero;
+        private Vector3 _destinationPos = Vector3.zero;
 
         private void Awake()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        public void SetUp(KeyCode input) // need improvement later
+        public void SetUp(KeyCode input, Vector3 parentPos) // need improvement later
         {
+            transform.localPosition = Vector3.zero;
+            _spawnPos = parentPos;
+            _destinationPos = parentPos + new Vector3(0, _songConfig.NoteDespawnY, 0);
             var index = -1;
             switch (input)
             {
@@ -42,6 +47,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
             }
 
             _spriteRenderer.sprite = _sprites[index];
+            _spriteRenderer.enabled = true;
         }
 
         private void Start()
@@ -53,16 +59,15 @@ namespace CaseStudy.Scripts.MusicNightBattle
         {
             double timeSinceInstantiated = _songController.GetAudioSourceTime() - _timeInstantiated;
             float t = (float)(timeSinceInstantiated / (_songConfig.NoteTime * 2));
-
+            time = t;
             if (t > 1)
             {
                 Destroy(gameObject);
             }
             else
             {
-                transform.localPosition = Vector3.Lerp(Vector3.zero,
-                    Vector3.up * _songConfig.NoteDespawnY, t);
-                _spriteRenderer.enabled = true;
+                transform.position = Vector3.Lerp(_spawnPos,
+                    _destinationPos, t);
             }
         }
     }
