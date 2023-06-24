@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 456e3e7179a447d196f901d9e6ce7a68, type: 3}
+  m_Name: SongConfig
+  m_EditorClassIdentifier: 
+  SongAudioClip: {fileID: 8300000, guid: 9490dfff4a53e2c48ad07c0466f11746, type: 3}
+  BeatSFX: {fileID: 8300000, guid: 4b590f4c2180ac34ebf8f48c9227de00, type: 3}
+  MissSFX: {fileID: 8300000, guid: 0fcc651e8d7bc4649af2dfc2c732c802, type: 3}
+  SongDelayInSeconds: 0
+  InputDelayInMilliseconds: 0
+  MarginOfError: 0.15
+  NoteTime: 1
+  NoteSpawnY: 0
+  NoteTapY: -8.5
+  FilePath: Song-beat-chart.mid

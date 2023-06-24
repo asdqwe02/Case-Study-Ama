@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using CaseStudy.Scripts.MusicNightBattle.Configs;
+using CaseStudy.Scripts.MusicNightBattle.Managers;
 using UnityEngine;
+using Zenject;
 
 namespace CaseStudy.Scripts.MusicNightBattle
 {
@@ -10,6 +13,9 @@ namespace CaseStudy.Scripts.MusicNightBattle
         public double AssignedTime;
         private SpriteRenderer _spriteRenderer;
         [SerializeField] private List<Sprite> _sprites;
+
+        [Inject] private ISongController _songController;
+        [Inject] private SongConfig _songConfig;
 
         private void Awake()
         {
@@ -40,13 +46,13 @@ namespace CaseStudy.Scripts.MusicNightBattle
 
         private void Start()
         {
-            _timeInstantiated = SongManager.GetAudioSourceTime();
+            _timeInstantiated = _songController.GetAudioSourceTime();
         }
 
         private void Update()
         {
-            double timeSinceInstantiated = SongManager.GetAudioSourceTime() - _timeInstantiated;
-            float t = (float)(timeSinceInstantiated / (SongManager.Instance.NoteTime * 2));
+            double timeSinceInstantiated = _songController.GetAudioSourceTime() - _timeInstantiated;
+            float t = (float)(timeSinceInstantiated / (_songConfig.NoteTime * 2));
 
             if (t > 1)
             {
@@ -55,7 +61,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
             else
             {
                 transform.localPosition = Vector3.Lerp(Vector3.zero,
-                    Vector3.up * SongManager.Instance.NoteDespawnY, t);
+                    Vector3.up * _songConfig.NoteDespawnY, t);
                 _spriteRenderer.enabled = true;
             }
         }

@@ -1,17 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using CaseStudy.Scripts.MusicNightBattle.Signals;
 using UnityEngine;
+using Zenject;
 
-namespace CaseStudy.Scripts
+namespace CaseStudy.Scripts.MusicNightBattle
 {
     public class CharacterSpriteController : MonoBehaviour
     {
         [SerializeField] private List<Sprite> _sprites;
+        [SerializeField] private bool _player;
         private SpriteRenderer _spriteRenderer;
+        [Inject] private SignalBus _signalBus;
 
         private void Awake()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            if (_player)
+            {
+                _signalBus.Subscribe<ChangeCharacterSprite>(OnChangeCharacterSprite);
+            }
+        }
+
+        private void OnChangeCharacterSprite(ChangeCharacterSprite obj)
+        {
+            ChangeSprite(obj.Input);
         }
 
         public void ChangeSprite(KeyCode input)

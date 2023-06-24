@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CaseStudy.DesignPattern;
-using Unity.VisualScripting;
+using CaseStudy.Scenes.MusicNightBattle;
+using CaseStudy.Scenes.MusicNightBattle.Scripts;
+using CaseStudy.Scripts.MusicNightBattle.Signals;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
-namespace CaseStudy.Scripts.MusicNightBattle
+namespace CaseStudy.Scripts.MusicNightBattle.Managers
 {
     public class ScoreManager : MonoSingleton<ScoreManager>
     {
@@ -16,6 +18,9 @@ namespace CaseStudy.Scripts.MusicNightBattle
         [SerializeField] private int _playerScore = 5;
         [SerializeField] private int _maxScore = 10;
         [SerializeField] private int _missPenalty = 4;
+
+        [Inject] private SignalBus _signalBus;
+        [Inject] private MusicNightBattleLogic _logic;
         private List<int> _initialValue = new();
 
         private void Awake()
@@ -24,7 +29,24 @@ namespace CaseStudy.Scripts.MusicNightBattle
             _initialValue.Add(_playerScore);
             _initialValue.Add(_maxScore);
             _initialValue.Add(_missPenalty);
+            // _signalBus.Subscribe<GameOverSignal>(OnGameOver);
+            _signalBus.Subscribe<GameState>(OnGameStateSignal);
         }
+
+        private void OnGameStateSignal(GameState obj)
+        {
+            switch (obj)
+            {
+                case GameState.FINISH:
+                    Reset();
+                    break;
+            }
+        }
+
+        // private void OnGameOver(GameOverSignal obj)
+        // {
+        //     Restart();
+        // }
 
         public void MissSFX()
         {
@@ -42,13 +64,13 @@ namespace CaseStudy.Scripts.MusicNightBattle
 
         private void LateUpdate()
         {
-            if (GameManager.Instance.Started)
+            if (_logic.Started)
             {
                 CalculateHP(); // not optimize
             }
         }
 
-        public void Restart()
+        public void Reset()
         {
             Debug.Log("Score reset");
             _playerScore = _initialValue[0];

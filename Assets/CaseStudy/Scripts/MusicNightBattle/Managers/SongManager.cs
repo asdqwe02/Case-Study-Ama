@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using CaseStudy.DesignPattern;
 using Melanchall.DryWetMidi.Core;
 using Melanchall.DryWetMidi.Interaction;
-using Unity.VisualScripting;
 using UnityEngine;
 
-namespace CaseStudy.Scripts.MusicNightBattle
+namespace CaseStudy.Scripts.MusicNightBattle.Managers
 {
     public class SongManager : MonoSingleton<SongManager>
     {
@@ -50,7 +48,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
             _audioSource.Stop();
             foreach (var lane in _lanes)
             {
-                lane.Restart();
+                lane.Reset();
             }
         }
 

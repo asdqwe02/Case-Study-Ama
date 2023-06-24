@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using CaseStudy.Scripts.MusicNightBattle.Signals;
 using UnityEngine;
+using Zenject;
 
 namespace CaseStudy.Scripts.MusicNightBattle
 {
@@ -7,6 +9,8 @@ namespace CaseStudy.Scripts.MusicNightBattle
     {
         [SerializeField] private List<Sprite> _sprites;
         [SerializeField] private List<SpriteRenderer> _countdownSpriteRenderers;
+
+        [Inject] private SignalBus _signalBus;
         private Animator _animator;
         private int _spriteIndex;
 
@@ -19,8 +23,22 @@ namespace CaseStudy.Scripts.MusicNightBattle
                 countdownSpriteRenderer.sprite = _sprites[0];
                 countdownSpriteRenderer.enabled = false;
             }
+            
+            _signalBus.Subscribe<CountDownState>(OnCountDownStateSignal);
         }
 
+        private void OnCountDownStateSignal(CountDownState obj)
+        {
+            switch (obj)
+            {
+                case CountDownState.START:
+                    StartCountDown();
+                    break;
+                case CountDownState.FINISH:
+                    CountdownFinish();
+                    break;
+            }
+        }
         public void CountdownFinish()
         {
             foreach (var countdownSpriteRenderer in _countdownSpriteRenderers)
@@ -31,7 +49,6 @@ namespace CaseStudy.Scripts.MusicNightBattle
 
             _animator.enabled = false;
             _spriteIndex = 0;
-            GameManager.Instance.StartGame();
         }
 
         public void StartCountDown()
@@ -49,7 +66,8 @@ namespace CaseStudy.Scripts.MusicNightBattle
             _spriteIndex++;
             if (_spriteIndex >= _sprites.Count)
             {
-                CountdownFinish();
+                Debug.Log("countdown finisih signal");
+                _signalBus.Fire(CountDownState.FINISH);
                 return;
             }
 

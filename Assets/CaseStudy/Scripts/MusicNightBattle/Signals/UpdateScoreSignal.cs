@@ -1,7 +1,7 @@
 ﻿namespace CaseStudy.Scripts.MusicNightBattle.Signals
 {
-    public class MissNoteSignal
+    public struct UpdateScoreSignal
     {
-        
+        public int Score;
     }
 }

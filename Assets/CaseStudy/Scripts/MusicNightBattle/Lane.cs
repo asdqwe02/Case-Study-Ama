@@ -1,9 +1,16 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using CaseStudy.Scenes.MusicNightBattle;
+using CaseStudy.Scenes.MusicNightBattle.Scripts;
+using CaseStudy.Scripts.MusicNightBattle.Configs;
+using CaseStudy.Scripts.MusicNightBattle.Managers;
+using CaseStudy.Scripts.MusicNightBattle.Signals;
 using Melanchall.DryWetMidi.Interaction;
-using ModestTree;
 using UnityEngine;
+using Zenject;
 
 namespace CaseStudy.Scripts.MusicNightBattle
 {
@@ -13,104 +20,190 @@ namespace CaseStudy.Scripts.MusicNightBattle
         [SerializeField] private KeyCode _input;
         public GameObject NotePrefab;
         private List<Note> _notes = new();
-        public List<double> TimeStamps; // in second
+        public List<double> TimeStamps; // in second when note will spawn at a particular time in the song
         private int _spawnIndex = 0;
         private int _inputIndex = 0;
-        private bool finished = false;
+        private bool _finished = false;
+        [Inject] private ISongController _songController;
+        [Inject] private SongConfig _songConfig;
+        [Inject] private SignalBus _signalBus;
+        [Inject] private DiContainer _container;
+        [Inject] private MusicNightBattleLogic _logic;
+
+        private void Awake()
+        {
+            _signalBus.Subscribe<ReceivedNotesFromMidi>(OnReceivedNotes);
+            // _signalBus.Subscribe<GameOverSignal>(OnGameOver);
+            _signalBus.Subscribe<GameState>(OnGameStateSignal);
+        }
+
+        private void OnGameStateSignal(GameState obj)
+        {
+            switch (obj)
+            {
+                case GameState.FINISH:
+                    StopAllCoroutines();
+                    break;
+            }
+        }
+
+        // private void OnGameOver(GameOverSignal obj)
+        // {
+        //     StopAllCoroutines();
+        //     // Reset();
+        // }
+
+
+        private void OnReceivedNotes(ReceivedNotesFromMidi obj)
+        {
+            SetTimeStamp(obj.Notes);
+        }
+
+        private void OnDestroy()
+        {
+            _signalBus.Unsubscribe<ReceivedNotesFromMidi>(OnReceivedNotes);
+        }
 
         public void SetTimeStamp(Melanchall.DryWetMidi.Interaction.Note[] noteArray)
         {
+            Reset();
             var landNotes = noteArray.Where(note => note.NoteName == _noteRestriction);
             foreach (var note in landNotes)
             {
                 // note.Time depend on the Midi time so need to convert it back to metric time
                 var metricTimeSpan =
-                    TimeConverter.ConvertTo<MetricTimeSpan>(note.Time, SongManager.Instance.MidiFile.GetTempoMap());
+                    TimeConverter.ConvertTo<MetricTimeSpan>(note.Time, _songController.GetMidiFile().GetTempoMap());
                 TimeStamps.Add((double)metricTimeSpan.Minutes * 60f + metricTimeSpan.Seconds +
                                (double)metricTimeSpan.Milliseconds / 1000f);
             }
+
+            // StartCoroutine(SpawnNoteCoroutine());
         }
 
         private void Update()
         {
-            if (GameManager.Instance.Started)
+            if (_logic.Started)
             {
-                if (_spawnIndex < TimeStamps.Count)
-                {
-                    if (SongManager.GetAudioSourceTime() >= TimeStamps[_spawnIndex] - SongManager.Instance.NoteTime)
-                    {
-                        // spawn note
-                        var note = Instantiate(NotePrefab, transform).GetComponent<Note>();
-                        note.SetUp(_input);
-                        _notes.Add(note);
-                        note.AssignedTime = (float)TimeStamps[_spawnIndex];
-                        _spawnIndex++;
-                    }
-                }
-
-                if (_inputIndex < TimeStamps.Count)
-                {
-                    double timeStamp = TimeStamps[_inputIndex];
-                    double marginOfError = SongManager.Instance.MarginOfError;
-                    double audioTime = SongManager.GetAudioSourceTime() -
-                                       (SongManager.Instance.InputDelayInMilliseconds / 1000.0);
-
-                    // Process keyboard input
-                    if (Input.GetKeyDown(_input))
-                    {
-                        if (Math.Abs(audioTime - timeStamp) < marginOfError)
-                        {
-                            Hit();
-                            Debug.Log($"Hit on {_inputIndex} note");
-                            Destroy(_notes[_inputIndex].gameObject);
-                            _inputIndex++;
-                        }
-                        else
-                        {
-                            Debug.Log(
-                                $"Hit inaccurate on {_inputIndex} note with {Math.Abs(audioTime - timeStamp)} delay");
-                        }
-
-                        GameManager.Instance.ChangeRightCharacterSprite(_input);
-                    }
-
-                    if (timeStamp + marginOfError <= audioTime)
-                    {
-                        Miss();
-                        GameManager.Instance.ChangeRightCharacterSprite(KeyCode.None);
-                        Debug.Log($"miss position: {_notes[_inputIndex].transform.localPosition}");
-                        Debug.Log($"Missed {_inputIndex} note");
-                        _inputIndex++;
-                    }
-                }
-
-                else if (transform.childCount == 0 && !finished)
-                {
-                    finished = true;
-                    GameManager.Instance.AddFinishedLane(this);
-                }
+                // spawn process
+                SpawnNote();
+                // input process
+                ProcessKeyboardInput();
             }
         }
 
         private void Miss()
         {
             // miss note implementation
-            ScoreManager.Instance.MissSFX();
+            // ScoreManager.Instance.MissSFX();
+            _signalBus.Fire<MissNoteSignal>();
         }
 
         private void Hit()
         {
             // hit note implementation
-            ScoreManager.Instance.HitSFX();
+            // ScoreManager.Instance.HitSFX();
+            _signalBus.Fire<HitNoteSignal>();
         }
 
-        public void Restart()
+        public void Reset()
         {
             _spawnIndex = 0;
             _inputIndex = 0;
-            finished = false;
+            _finished = false;
             _notes.Clear();
             TimeStamps.Clear();
+        }
+
+        // NOTE: have problem when the game first run the song and the note spawn won't sync together
+        IEnumerator SpawnNoteCoroutine()
+        {
+            while (_spawnIndex < TimeStamps.Count && !_finished)
+            {
+                // spawn note
+                // var note = Instantiate(NotePrefab, transform).GetComponent<Note>();
+                var timeWait = _spawnIndex == 0
+                    ? (float)TimeStamps[_spawnIndex] - _songConfig.NoteTime
+                    : (float)(TimeStamps[_spawnIndex] - TimeStamps[_spawnIndex - 1]);
+                yield return new WaitForSeconds(timeWait);
+                var note = _container.InstantiatePrefab(NotePrefab, transform)
+                    .GetComponent<Note>();
+                note.SetUp(_input);
+                _notes.Add(note);
+                note.AssignedTime = (float)TimeStamps[_spawnIndex];
+                _spawnIndex++;
+            }
+        }
+
+        void SpawnNote()
+        {
+            if (_spawnIndex < TimeStamps.Count)
+            {
+                if (_songController.GetAudioSourceTime() >= TimeStamps[_spawnIndex] - _songConfig.NoteTime)
+                {
+                    var note = _container.InstantiatePrefab(NotePrefab, transform)
+                        .GetComponent<Note>();
+                    note.SetUp(_input);
+                    _notes.Add(note);
+                    note.AssignedTime = (float)TimeStamps[_spawnIndex];
+                    _spawnIndex++;
+                }
+            }
+        }
+
+        void ProcessKeyboardInput()
+        {
+            if (_inputIndex < TimeStamps.Count)
+            {
+                double timeStamp = TimeStamps[_inputIndex];
+                double marginOfError = _songConfig.MarginOfError;
+                double audioTime = _songController.GetAudioSourceTime() -
+                                   (_songConfig.InputDelayInMilliseconds / 1000.0);
+
+                // Process keyboard input
+                if (Input.GetKeyDown(_input))
+                {
+                    if (Math.Abs(audioTime - timeStamp) < marginOfError)
+                    {
+                        Hit();
+                        Debug.Log($"Hit on {_inputIndex} note");
+                        Destroy(_notes[_inputIndex].gameObject);
+                        _inputIndex++;
+                    }
+                    else
+                    {
+                        Debug.Log(
+                            $"Hit inaccurate on {_inputIndex} note with {Math.Abs(audioTime - timeStamp)} delay");
+                    }
+
+                    _signalBus.Fire(new ChangeCharacterSprite
+                    {
+                        Input = _input
+                    });
+                    // GameManager.Instance.ChangeRightCharacterSprite(_input);
+                }
+
+                if (timeStamp + marginOfError <= audioTime)
+                {
+                    Miss();
+                    _signalBus.Fire(new ChangeCharacterSprite
+                    {
+                        Input = KeyCode.None
+                    });
+                    Debug.Log($"miss position: {_notes[_inputIndex].transform.localPosition}");
+                    Debug.Log($"Missed {_inputIndex} note");
+                    _inputIndex++;
+                }
+            }
+
+            else if (transform.childCount == 0 && !_finished) // very unoptimized
+            {
+                _finished = true;
+                StopAllCoroutines();
+                _signalBus.Fire(new LaneFinishedSignal
+                {
+                    Lane = this
+                });
+            }
         }
 
         public void ProcessButtonInput()
@@ -118,9 +211,9 @@ namespace CaseStudy.Scripts.MusicNightBattle
             if (_inputIndex < TimeStamps.Count)
             {
                 double timeStamp = TimeStamps[_inputIndex];
-                double marginOfError = SongManager.Instance.MarginOfError;
-                double audioTime = SongManager.GetAudioSourceTime() -
-                                   (SongManager.Instance.InputDelayInMilliseconds / 1000.0);
+                double marginOfError = _songConfig.MarginOfError;
+                double audioTime = _songController.GetAudioSourceTime() -
+                                   (_songConfig.InputDelayInMilliseconds / 1000.0);
                 if (Math.Abs(audioTime - timeStamp) < marginOfError)
                 {
                     Hit();
@@ -134,7 +227,12 @@ namespace CaseStudy.Scripts.MusicNightBattle
                         $"Hit inaccurate on {_inputIndex} note with {Math.Abs(audioTime - timeStamp)} delay");
                 }
             }
-            GameManager.Instance.ChangeRightCharacterSprite(_input);
+
+            _signalBus.Fire(new ChangeCharacterSprite
+            {
+                Input = _input
+            });
+            // GameManager.Instance.ChangeRightCharacterSprite(_input);
         }
     }
 }
