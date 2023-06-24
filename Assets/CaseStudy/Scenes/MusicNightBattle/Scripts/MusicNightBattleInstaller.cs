@@ -25,6 +25,7 @@ namespace CaseStudy.Scenes.MusicNightBattle.Scripts
             Container.DeclareSignal<LaneFinishedSignal>();
             Container.DeclareSignal<UpdateScoreSignal>();
             Container.DeclareSignal<UpdateHPSignal>();
+            Container.DeclareSignal<UpdateLanePositionSignal>();
             Container.DeclareSignal<GameState>();
             Container.DeclareSignal<CountDownState>();
         }

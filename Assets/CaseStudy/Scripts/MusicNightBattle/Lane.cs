@@ -38,6 +38,13 @@ namespace CaseStudy.Scripts.MusicNightBattle
             _signalBus.Subscribe<ReceivedNotesFromMidi>(OnReceivedNotes);
             // _signalBus.Subscribe<GameOverSignal>(OnGameOver);
             _signalBus.Subscribe<GameState>(OnGameStateSignal);
+            _signalBus.Subscribe<UpdateLanePositionSignal>(OnUpdateLanePosition);
+        }
+
+        private void OnUpdateLanePosition(UpdateLanePositionSignal obj)
+        {
+            _logger.Information("update lane");
+            UpdateLanePosition();
         }
 
 
@@ -74,7 +81,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
                                 (double)metricTimeSpan.Milliseconds / 1000f);
             }
 
-            UpdateLanePosition();
+            // UpdateLanePosition();
 
             // StartCoroutine(SpawnNoteCoroutine());
         }
@@ -150,7 +157,6 @@ namespace CaseStudy.Scripts.MusicNightBattle
 
         void ProcessKeyboardInput()
         {
-            UpdateLanePosition();
             if (_inputIndex < _timeStamps.Count)
             {
                 double timeStamp = _timeStamps[_inputIndex];
@@ -237,6 +243,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
 
         void UpdateLanePosition()
         {
+            Canvas.ForceUpdateCanvases();
             var buttonWorldPos = _logic.GetLanePosition(_laneInputButton.GetComponent<RectTransform>());
             var pos = transform.position;
             pos.x = buttonWorldPos.x;
