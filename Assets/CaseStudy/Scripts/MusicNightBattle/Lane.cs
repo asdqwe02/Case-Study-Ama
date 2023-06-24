@@ -93,7 +93,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
                 // spawn process
                 SpawnNote();
                 // input process
-                ProcessKeyboardInput();
+                ProcessBaseInput();
             }
         }
 
@@ -103,11 +103,14 @@ namespace CaseStudy.Scripts.MusicNightBattle
             _signalBus.Fire<MissNoteSignal>();
         }
 
-        private void Hit()
+        private void Hit(bool perfect = false)
         {
             // hit note implementation
             // ScoreManager.Instance.HitSFX();
-            _signalBus.Fire<HitNoteSignal>();
+            _signalBus.Fire(new HitNoteSignal
+            {
+                Perfect = perfect
+            });
         }
 
         public void Reset()
@@ -155,7 +158,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
             }
         }
 
-        void ProcessKeyboardInput()
+        void ProcessBaseInput()
         {
             if (_inputIndex < _timeStamps.Count)
             {
@@ -167,9 +170,13 @@ namespace CaseStudy.Scripts.MusicNightBattle
                 // Process keyboard input
                 if (Input.GetKeyDown(_input))
                 {
-                    if (Math.Abs(audioTime - timeStamp) < marginOfError)
+                    var hitMargin = Math.Abs(audioTime - timeStamp);
+                    if (hitMargin < marginOfError)
                     {
-                        Hit();
+                        var perfect = hitMargin <= _songConfig.PerfectHitMargin.y && hitMargin >= _songConfig.PerfectHitMargin.x;
+                        
+                        _logger.Information($"hit margin: {hitMargin}, perfect: {perfect}");
+                        Hit(perfect);
                         _logger.Debug($"Hit on {_inputIndex} note");
                         Destroy(_notes[_inputIndex].gameObject);
                         _inputIndex++;

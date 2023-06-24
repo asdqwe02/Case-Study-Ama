@@ -32,9 +32,15 @@ namespace CaseStudy.Scripts.MusicNightBattle
 
         private void OnNoteHit(HitNoteSignal obj)
         {
-            _effectImage.sprite = _sprites[1];
+            if (obj.Perfect)
+            {
+                _effectImage.sprite = _sprites[2];
+            }
+            else
+            {
+                _effectImage.sprite = _sprites[1];
+            }
             _animator.SetTrigger(PopEffect);
-
         }
     }
 }
