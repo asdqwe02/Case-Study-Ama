@@ -6974,7 +6974,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b07d24e25e142d28eea6d35835ea47f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _countdownController: {fileID: 1262999658}
   _titleScreen: {fileID: 160810322}
   _mainGameUI: {fileID: 1897417169}
   _startButton: {fileID: 475877828}
@@ -8560,6 +8559,10 @@ MonoBehaviour:
   _songAudioSource: {fileID: 1400303387}
   _beatSFXAudioSource: {fileID: 1822857809}
   _missSFXAudioSource: {fileID: 1818026044}
+  _titleScreen: {fileID: 160810322}
+  _mainGameUI: {fileID: 1897417169}
+  _startButton: {fileID: 475877828}
+  _tryAgainButton: {fileID: 1296277838}
 --- !u!1 &2110108158
 GameObject:
   m_ObjectHideFlags: 0

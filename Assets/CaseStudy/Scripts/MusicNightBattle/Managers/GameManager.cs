@@ -2,7 +2,6 @@
 using System.Linq;
 using CaseStudy.DesignPattern;
 using CaseStudy.Scripts.MusicNightBattle.Managers;
-using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -16,7 +15,6 @@ namespace CaseStudy.Scripts.MusicNightBattle
         [SerializeField] private Button _startButton;
         [SerializeField] private Button _tryAgainButton;
         [Inject] private CountdownController _countdownController;
-
         [SerializeField] private CharacterSpriteController _rightCharacterSpriteController;
         private bool _started = false;
         public bool Started => _started;
@@ -26,8 +24,8 @@ namespace CaseStudy.Scripts.MusicNightBattle
 
         private void Awake()
         {
-            _startButton.onClick.AddListener(StartButtonClick);
-            _tryAgainButton.onClick.AddListener(StartButtonClick);
+            // _startButton.onClick.AddListener(StartButtonClick);
+            // _tryAgainButton.onClick.AddListener(StartButtonClick);
         }
 
         public void StartButtonClick()

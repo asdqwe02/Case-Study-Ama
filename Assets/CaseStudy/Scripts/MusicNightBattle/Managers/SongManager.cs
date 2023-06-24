@@ -48,7 +48,7 @@ namespace CaseStudy.Scripts.MusicNightBattle.Managers
             _audioSource.Stop();
             foreach (var lane in _lanes)
             {
-                lane.Restart();
+                lane.Reset();
             }
         }
 

@@ -1,7 +1,7 @@
 ﻿namespace CaseStudy.Scripts.MusicNightBattle.Signals
 {
-    public class SongRestartSignal
+    public class LaneFInishSingal
     {
-        
+        public Lane Lane;
     }
 }

@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
 using CaseStudy.DesignPattern;
+using CaseStudy.Scenes.MusicNightBattle;
+using CaseStudy.Scripts.MusicNightBattle.Signals;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace CaseStudy.Scripts.MusicNightBattle.Managers
 {
@@ -14,6 +17,9 @@ namespace CaseStudy.Scripts.MusicNightBattle.Managers
         [SerializeField] private int _playerScore = 5;
         [SerializeField] private int _maxScore = 10;
         [SerializeField] private int _missPenalty = 4;
+
+        [Inject] private SignalBus _signalBus;
+        [Inject] private MusicNightBattleLogic _logic;
         private List<int> _initialValue = new();
 
         private void Awake()
@@ -22,6 +28,12 @@ namespace CaseStudy.Scripts.MusicNightBattle.Managers
             _initialValue.Add(_playerScore);
             _initialValue.Add(_maxScore);
             _initialValue.Add(_missPenalty);
+            _signalBus.Subscribe<GameOverSignal>(OnGameOver);
+        }
+
+        private void OnGameOver(GameOverSignal obj)
+        {
+            Restart();
         }
 
         public void MissSFX()
@@ -40,7 +52,7 @@ namespace CaseStudy.Scripts.MusicNightBattle.Managers
 
         private void LateUpdate()
         {
-            if (GameManager.Instance.Started)
+            if (_logic.Started)
             {
                 CalculateHP(); // not optimize
             }

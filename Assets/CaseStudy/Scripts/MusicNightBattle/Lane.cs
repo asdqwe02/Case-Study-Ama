@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using CaseStudy.Scenes.MusicNightBattle;
 using CaseStudy.Scripts.MusicNightBattle.Configs;
 using CaseStudy.Scripts.MusicNightBattle.Managers;
 using CaseStudy.Scripts.MusicNightBattle.Signals;
@@ -25,17 +26,20 @@ namespace CaseStudy.Scripts.MusicNightBattle
         [Inject] private SongConfig _songConfig;
         [Inject] private SignalBus _signalBus;
         [Inject] private DiContainer _container;
+        [Inject] private MusicNightBattleLogic _logic;
 
         private void Awake()
         {
             _signalBus.Subscribe<ReceivedNotesFromMidi>(OnReceivedNotes);
-            _signalBus.Subscribe<SongRestartSignal>(OnSongRestart);
+            _signalBus.Subscribe<GameOverSignal>(OnGameOver);
         }
 
-        private void OnSongRestart(SongRestartSignal obj)
+        private void OnGameOver(GameOverSignal obj)
         {
-            Restart();
+            StopAllCoroutines();
+            // Reset();
         }
+
 
         private void OnReceivedNotes(ReceivedNotesFromMidi obj)
         {
@@ -49,6 +53,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
 
         public void SetTimeStamp(Melanchall.DryWetMidi.Interaction.Note[] noteArray)
         {
+            Reset();
             var landNotes = noteArray.Where(note => note.NoteName == _noteRestriction);
             foreach (var note in landNotes)
             {
@@ -64,8 +69,9 @@ namespace CaseStudy.Scripts.MusicNightBattle
 
         private void Update()
         {
-            if (GameManager.Instance.Started)
+            if (_logic.Started)
             {
+                // input process
                 if (_inputIndex < TimeStamps.Count)
                 {
                     double timeStamp = TimeStamps[_inputIndex];
@@ -112,7 +118,12 @@ namespace CaseStudy.Scripts.MusicNightBattle
                 else if (transform.childCount == 0 && !_finished) // very unoptimized
                 {
                     _finished = true;
-                    GameManager.Instance.AddFinishedLane(this);
+                    StopAllCoroutines();
+                    _signalBus.Fire(new LaneFInishSingal
+                    {
+                        Lane = this
+                    });
+                    // GameManager.Instance.AddFinishedLane(this);
                 }
             }
         }
@@ -129,7 +140,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
             ScoreManager.Instance.HitSFX();
         }
 
-        public void Restart()
+        public void Reset()
         {
             _spawnIndex = 0;
             _inputIndex = 0;
@@ -140,7 +151,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
 
         IEnumerator SpawnNote()
         {
-            while (_spawnIndex < TimeStamps.Count)
+            while (_spawnIndex < TimeStamps.Count && !_finished)
             {
                 // spawn note
                 // var note = Instantiate(NotePrefab, transform).GetComponent<Note>();
@@ -148,6 +159,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
                     ? (float)TimeStamps[_spawnIndex] - _songConfig.NoteTime
                     : (float)(TimeStamps[_spawnIndex] - TimeStamps[_spawnIndex - 1]);
                 yield return new WaitForSeconds(timeWait);
+                Debug.Log("spawn note");
                 var note = _container.InstantiatePrefab(NotePrefab, transform)
                     .GetComponent<Note>(); // could cause error
                 note.SetUp(_input);
@@ -178,7 +190,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
                         $"Hit inaccurate on {_inputIndex} note with {Math.Abs(audioTime - timeStamp)} delay");
                 }
             }
-            
+
             _signalBus.Fire(new ChangePlayerSpriteSignal
             {
                 Input = _input

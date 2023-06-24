@@ -22,6 +22,19 @@ namespace CaseStudy.Scripts.MusicNightBattle.Managers
         public void Init(AudioSource audioSource)
         {
             _audioSource = audioSource;
+            
+            _signalBus.Subscribe<GameOverSignal>(OnGameOver);
+            _signalBus.Subscribe<StartGameSIgnal>(OnGameStart);
+        }
+
+        private void OnGameStart(StartGameSIgnal obj)
+        {
+            StartSong();
+        }
+
+        private void OnGameOver(GameOverSignal obj)
+        {
+            Restart();
         }
 
         public void StartSong()
@@ -32,7 +45,6 @@ namespace CaseStudy.Scripts.MusicNightBattle.Managers
         public void Restart()
         {
             _audioSource.Stop();
-            _signalBus.Fire<SongRestartSignal>();
         }
 
         public void ReadMidiFromFile()
