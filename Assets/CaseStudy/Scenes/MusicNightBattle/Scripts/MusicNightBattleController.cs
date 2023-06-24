@@ -1,10 +1,7 @@
-using System;
-using CaseStudy.Scripts.MusicNightBattle;
 using CaseStudy.Scripts.MusicNightBattle.Configs;
 using CaseStudy.Scripts.MusicNightBattle.Managers;
 using CaseStudy.Scripts.MusicNightBattle.Signals;
 using GFramework.Scene;
-using Microsoft.Win32.SafeHandles;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -14,7 +11,7 @@ using UnityEditor.SceneManagement;
 #endif
 
 // ReSharper disable once CheckNamespace
-namespace CaseStudy.Scenes.MusicNightBattle
+namespace CaseStudy.Scenes.MusicNightBattle.Scripts
 {
     public class MusicNightBattleController : SceneController
     {
@@ -48,7 +45,23 @@ namespace CaseStudy.Scenes.MusicNightBattle
 
             // signal bus subscription
             _signalBus.Subscribe<GameState>(OnGameState);
-            // _signalBus.Subscribe<GameOverSignal>(OnGameOver);
+            _signalBus.Subscribe<HitNoteSignal>(OnNoteHit);
+            _signalBus.Subscribe<MissNoteSignal>(OnNoteMiss);
+        }
+
+        private void Start()
+        {
+            _mainGameUI.SetActive(false);
+        }
+
+        private void OnNoteMiss(MissNoteSignal obj)
+        {
+            _missSFXAudioSource.Play();
+        }
+
+        private void OnNoteHit(HitNoteSignal obj)
+        {
+            _beatSFXAudioSource.Play();
         }
 
         private void OnGameState(GameState obj)
@@ -67,14 +80,6 @@ namespace CaseStudy.Scenes.MusicNightBattle
                     break;
             }
         }
-
-        // private void OnGameOver(GameOverSignal obj)
-        // {
-        //     _startButton.gameObject.SetActive(false);
-        //     _tryAgainButton.gameObject.SetActive(true);
-        //     _titleScreen.SetActive(true);
-        //     _mainGameUI.SetActive(false);
-        // }
 
         public void StartButtonClick()
         {

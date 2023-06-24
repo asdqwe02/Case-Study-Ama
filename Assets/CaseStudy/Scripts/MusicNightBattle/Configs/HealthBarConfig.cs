@@ -7,8 +7,9 @@ namespace CaseStudy.Scripts.MusicNightBattle.Configs
     [CreateAssetMenu(menuName = "MusicNightBattle/HPConfig", fileName = "HPConfig.asset")]
     public class HealthBarConfig : ScriptableObject
     {
-        [SerializeField] private int _playerHP = 10;
-        [SerializeField] private int _maxHP = 20;
-        [SerializeField] private int _missPenalty = 2;
+        public int PlayerInitalHP = 10;
+        public int MaxHP = 20;
+        public int MissPenalty = 2;
+        public int HitIncrease = 1;
     }
 }

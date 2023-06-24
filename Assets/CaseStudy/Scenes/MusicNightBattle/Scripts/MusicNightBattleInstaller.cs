@@ -4,7 +4,7 @@ using CaseStudy.Scripts.MusicNightBattle.Signals;
 using UnityEngine;
 using Zenject;
 
-namespace CaseStudy.Scenes.MusicNightBattle
+namespace CaseStudy.Scenes.MusicNightBattle.Scripts
 {
     public class MusicNightBattleInstaller : MonoInstaller
     {

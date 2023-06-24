@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
 using CaseStudy.Scripts.MusicNightBattle;
+using CaseStudy.Scripts.MusicNightBattle.Configs;
 using CaseStudy.Scripts.MusicNightBattle.Signals;
-using JetBrains.Annotations;
 using GFramework.Runner;
+using JetBrains.Annotations;
+using UnityEngine;
 using Zenject;
 using ILogger = GFramework.Logger.ILogger;
 
-namespace CaseStudy.Scenes.MusicNightBattle
+namespace CaseStudy.Scenes.MusicNightBattle.Scripts
 {
     [UsedImplicitly]
     [Serializable]
@@ -16,10 +18,21 @@ namespace CaseStudy.Scenes.MusicNightBattle
         [Inject] private ILogger _logger;
         [Inject] private IRunner _runner;
         [Inject] private SignalBus _signalBus;
+        [Inject] private HealthBarConfig _healthBarConfig;
         private bool _started = false;
         public bool Started => _started;
         private List<Lane> _laneFinished = new();
+        private int _playerHP;
 
+        public int PlayerHp
+        {
+            get => _playerHP;
+            set
+            {
+                _playerHP = value;
+                CalculateHPPercent();
+            }
+        }
 
         public void Init()
         {
@@ -27,16 +40,27 @@ namespace CaseStudy.Scenes.MusicNightBattle
             _signalBus.Subscribe<LaneFinishedSignal>(OnLaneFinished);
             _signalBus.Subscribe<MissNoteSignal>(OnMissNote);
             _signalBus.Subscribe<HitNoteSignal>(OnHitNote);
+
+            PlayerHp = _healthBarConfig.PlayerInitalHP;
         }
 
         private void OnHitNote(HitNoteSignal obj)
         {
-            throw new NotImplementedException();
+            PlayerHp = Mathf.Clamp(_playerHP + _healthBarConfig.HitIncrease, 0, _healthBarConfig.MaxHP);
+        }
+
+        void CalculateHPPercent()
+        {
+            _signalBus.Fire(new UpdateHPSignal
+            {
+                PercentRight = (float)_playerHP / _healthBarConfig.MaxHP,
+                PercentLeft = (float)(_healthBarConfig.MaxHP - _playerHP) / _healthBarConfig.MaxHP
+            });
         }
 
         private void OnMissNote(MissNoteSignal obj)
         {
-            throw new NotImplementedException();
+            PlayerHp = Mathf.Clamp(_playerHP - _healthBarConfig.MissPenalty, 0, _healthBarConfig.MaxHP);
         }
 
         private void OnCountDownStateSignal(CountDownState obj)
@@ -57,24 +81,15 @@ namespace CaseStudy.Scenes.MusicNightBattle
 
             if (_laneFinished.Count >= 4)
             {
-                _logger.Information("game over");
+                _logger.Information("Game Over");
                 _started = false;
                 _signalBus.Fire(GameState.FINISH);
             }
         }
 
-        // private void OnCountDownSignal(CountDownSignal obj)
-        // {
-        //     if (obj.State == CountDownState.FINISH)
-        //     {
-        //         Reset();
-        //         // _signalBus.Fire<StartGameSignal>();
-        //         _signalBus.Fire(GameState.START);
-        //     }
-        // }
-
         public void Reset()
         {
+            PlayerHp = _healthBarConfig.PlayerInitalHP;
             _laneFinished.Clear();
             _started = true;
         }

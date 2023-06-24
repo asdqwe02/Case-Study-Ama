@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using CaseStudy.Scenes.MusicNightBattle;
+using CaseStudy.Scenes.MusicNightBattle.Scripts;
 using CaseStudy.Scripts.MusicNightBattle.Configs;
 using CaseStudy.Scripts.MusicNightBattle.Managers;
 using CaseStudy.Scripts.MusicNightBattle.Signals;
@@ -93,13 +94,15 @@ namespace CaseStudy.Scripts.MusicNightBattle
         private void Miss()
         {
             // miss note implementation
-            ScoreManager.Instance.MissSFX();
+            // ScoreManager.Instance.MissSFX();
+            _signalBus.Fire<MissNoteSignal>();
         }
 
         private void Hit()
         {
             // hit note implementation
-            ScoreManager.Instance.HitSFX();
+            // ScoreManager.Instance.HitSFX();
+            _signalBus.Fire<HitNoteSignal>();
         }
 
         public void Reset()
