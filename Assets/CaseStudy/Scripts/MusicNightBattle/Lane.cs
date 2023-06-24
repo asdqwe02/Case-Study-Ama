@@ -89,20 +89,27 @@ namespace CaseStudy.Scripts.MusicNightBattle
                                 $"Hit inaccurate on {_inputIndex} note with {Math.Abs(audioTime - timeStamp)} delay");
                         }
 
-                        GameManager.Instance.ChangeRightCharacterSprite(_input);
+                        _signalBus.Fire(new ChangePlayerSpriteSignal
+                        {
+                            Input = _input
+                        });
+                        // GameManager.Instance.ChangeRightCharacterSprite(_input);
                     }
 
                     if (timeStamp + marginOfError <= audioTime)
                     {
                         Miss();
-                        GameManager.Instance.ChangeRightCharacterSprite(KeyCode.None);
+                        _signalBus.Fire(new ChangePlayerSpriteSignal
+                        {
+                            Input = KeyCode.None
+                        });
                         Debug.Log($"miss position: {_notes[_inputIndex].transform.localPosition}");
                         Debug.Log($"Missed {_inputIndex} note");
                         _inputIndex++;
                     }
                 }
 
-                else if (transform.childCount == 0 && !_finished) // ver unoptimize
+                else if (transform.childCount == 0 && !_finished) // very unoptimized
                 {
                     _finished = true;
                     GameManager.Instance.AddFinishedLane(this);
@@ -171,8 +178,12 @@ namespace CaseStudy.Scripts.MusicNightBattle
                         $"Hit inaccurate on {_inputIndex} note with {Math.Abs(audioTime - timeStamp)} delay");
                 }
             }
-
-            GameManager.Instance.ChangeRightCharacterSprite(_input);
+            
+            _signalBus.Fire(new ChangePlayerSpriteSignal
+            {
+                Input = _input
+            });
+            // GameManager.Instance.ChangeRightCharacterSprite(_input);
         }
     }
 }
