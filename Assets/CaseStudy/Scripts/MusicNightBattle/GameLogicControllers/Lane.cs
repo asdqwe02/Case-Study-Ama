@@ -4,15 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using CaseStudy.Scenes.MusicNightBattle.Scripts;
 using CaseStudy.Scripts.MusicNightBattle.Configs;
-using CaseStudy.Scripts.MusicNightBattle.GameLogicControllers;
 using CaseStudy.Scripts.MusicNightBattle.Signals;
 using Melanchall.DryWetMidi.Interaction;
 using UnityEngine;
-using Zenject;
 using UnityEngine.UI;
+using Zenject;
 using ILogger = GFramework.Logger.ILogger;
+using Note = CaseStudy.Scripts.MusicNightBattle.VisualController.Note;
 
-namespace CaseStudy.Scripts.MusicNightBattle
+namespace CaseStudy.Scripts.MusicNightBattle.GameLogicControllers
 {
     public class Lane : MonoBehaviour
     {
@@ -274,7 +274,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
         void UpdateLanePosition()
         {
             // Canvas.ForceUpdateCanvases();
-            var buttonWorldPos = _logic.GetLanePosition(_laneInputButton.GetComponent<RectTransform>());
+            var buttonWorldPos = _logic.GetWorldPosFromCanvasPos(_laneInputButton.GetComponent<RectTransform>());
             var pos = transform.position;
             pos.x = buttonWorldPos.x;
             transform.position = pos;

@@ -1,10 +1,12 @@
 ﻿using System.Collections;
+using System.IO;
 using CaseStudy.Scripts.MusicNightBattle.Configs;
 using CaseStudy.Scripts.MusicNightBattle.Signals;
 using GFramework.Runner;
 using Melanchall.DryWetMidi.Core;
 using Melanchall.DryWetMidi.Interaction;
 using UnityEngine;
+using UnityEngine.Networking;
 using Zenject;
 
 namespace CaseStudy.Scripts.MusicNightBattle.GameLogicControllers
@@ -22,8 +24,6 @@ namespace CaseStudy.Scripts.MusicNightBattle.GameLogicControllers
         public void Init(AudioSource audioSource)
         {
             _audioSource = audioSource;
-
-            // _signalBus.Subscribe<GameState>(OnGameOver);
             _signalBus.Subscribe<GameState>(OnGameState);
         }
 
@@ -47,7 +47,35 @@ namespace CaseStudy.Scripts.MusicNightBattle.GameLogicControllers
 
         public void StartSong()
         {
+#if !UNITY_WEBGL
             ReadMidiFromFile();
+#endif
+        }
+
+        public IEnumerator ReadFromWebsite()
+        {
+            using (UnityWebRequest www =
+                   UnityWebRequest.Get(Application.streamingAssetsPath + "/" + _songConfig.FilePath))
+            {
+                yield return www.SendWebRequest();
+                while (!www.isDone) // block the thread until the request is done definitely could cause error 
+                {
+                    
+                }
+
+                if (www.result == UnityWebRequest.Result.ConnectionError
+                    || www.result == UnityWebRequest.Result.ProtocolError)
+                {
+                    Debug.LogError(www.error);
+                }
+                else
+                {
+                    byte[] results = www.downloadHandler.data;
+                    using var stream = new MemoryStream(results);
+                    _midiFile = MidiFile.Read(stream);
+                    GetDataFromMidiFile();
+                }
+            }
         }
 
         public void Restart()
