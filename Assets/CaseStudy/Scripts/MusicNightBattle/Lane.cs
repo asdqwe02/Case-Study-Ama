@@ -258,9 +258,6 @@ namespace CaseStudy.Scripts.MusicNightBattle
                     }
                     else
                     {
-                        
-                    }
-                    {
                         _logger.Debug(
                             $"Hit inaccurate on {_inputIndex} note with {Math.Abs(audioTime - timeStamp)} delay");
                     }
