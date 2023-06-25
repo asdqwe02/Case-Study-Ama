@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace CaseStudy.Scripts.MusicNightBattle.Managers
+namespace CaseStudy.Scripts.MusicNightBattle.GameLogicControllers
 {
     public class ScoreManager : MonoSingleton<ScoreManager>
     {

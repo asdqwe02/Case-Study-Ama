@@ -49,10 +49,19 @@ namespace CaseStudy.Scenes.MusicNightBattle.Scripts
 
         private void OnHitNote(HitNoteSignal obj)
         {
-            PlayerHp = Mathf.Clamp(_playerHP + _healthBarConfig.HitIncrease, 0, _healthBarConfig.MaxHP);
+            if (obj.IsPlayer)
+            {
+                PlayerHp = Mathf.Clamp(_playerHP + _healthBarConfig.HitIncrease, 0, _healthBarConfig.MaxHP);
+            }
+            else
+            {
+                PlayerHp = Mathf.Clamp(_playerHP - _healthBarConfig.EnemyHitPenalty,
+                    _healthBarConfig.PlayerMinHPInEnemyTurn,
+                    _healthBarConfig.MaxHP);
+            }
         }
 
-        void CalculateHPPercent()
+        void CalculateHPPercent()   
         {
             _signalBus.Fire(new UpdateHPSignal
             {
@@ -96,7 +105,7 @@ namespace CaseStudy.Scenes.MusicNightBattle.Scripts
             _laneFinished.Clear();
             _started = true;
         }
-        
+
         // Screen to world point function
         public Vector3 GetLanePosition(RectTransform rectTransform) // quite heavy calculation
         {

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Sirenix.OdinInspector.Editor.Drawers;
+using UnityEngine;
 
 namespace CaseStudy.Scripts.MusicNightBattle.Signals
 {
@@ -13,12 +14,12 @@ namespace CaseStudy.Scripts.MusicNightBattle.Signals
     public struct NoteStatusSignal
     {
         public NoteStatus NoteStatus;
-        
     }
 
     public struct HitNoteSignal
     {
         public bool Perfect;
+        public bool IsPlayer;
         public KeyCode Input;
     }
 

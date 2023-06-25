@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace CaseStudy.Scripts.MusicNightBattle
+namespace CaseStudy.Scripts.MusicNightBattle.VisualController
 {
     public class ButtonEffectController : MonoBehaviour
     {
@@ -17,7 +17,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
 
         private void OnNoteHit(HitNoteSignal obj)
         {
-            if (obj.Input == _input)
+            if (obj.Input == _input && obj.IsPlayer)
             {
                 _hitEffect.Play();
             }

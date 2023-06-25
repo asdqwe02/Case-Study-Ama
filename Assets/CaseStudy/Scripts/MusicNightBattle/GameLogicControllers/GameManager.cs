@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CaseStudy.DesignPattern;
-using CaseStudy.Scripts.MusicNightBattle.Managers;
+using CaseStudy.Scripts.MusicNightBattle.VisualController;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace CaseStudy.Scripts.MusicNightBattle
+namespace CaseStudy.Scripts.MusicNightBattle.GameLogicControllers
 {
     public class GameManager : MonoSingleton<GameManager>
     {

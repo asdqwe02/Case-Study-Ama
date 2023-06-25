@@ -20,7 +20,7 @@ namespace CaseStudy.Scripts.MusicNightBattle.Configs
         public float NoteTapY;
 
         public string FilePath;
-
+        public int PlayerOctave;
         public float NoteDespawnY => NoteTapY - (NoteSpawnY - NoteTapY);
     }
 }

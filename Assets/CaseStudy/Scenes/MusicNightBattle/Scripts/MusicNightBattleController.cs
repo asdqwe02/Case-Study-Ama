@@ -1,5 +1,5 @@
 using CaseStudy.Scripts.MusicNightBattle.Configs;
-using CaseStudy.Scripts.MusicNightBattle.Managers;
+using CaseStudy.Scripts.MusicNightBattle.GameLogicControllers;
 using CaseStudy.Scripts.MusicNightBattle.Signals;
 using GFramework.Scene;
 using UnityEngine;
@@ -61,6 +61,7 @@ namespace CaseStudy.Scenes.MusicNightBattle.Scripts
 
         private void OnNoteHit(HitNoteSignal obj)
         {
+            // cam change beat audio depend on note being hit by player or enemy
             _beatSFXAudioSource.Play();
         }
 

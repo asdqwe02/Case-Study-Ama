@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace CaseStudy.Scripts.MusicNightBattle
+namespace CaseStudy.Scripts.MusicNightBattle.VisualController
 {
     public class ScoreEffectController : MonoBehaviour
     {
@@ -40,6 +40,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
             {
                 _effectImage.sprite = _sprites[1];
             }
+
             _animator.SetTrigger(PopEffect);
         }
     }
