@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GFramework.Runner
 {
-    public class GRunner: MonoBehaviour, IRunner
+    public class GRunner : MonoBehaviour, IRunner
     {
         private readonly List<Action> _mainThreadActionQueue = new();
         private readonly List<Action> _updateActionQueue = new();
@@ -16,7 +16,6 @@ namespace GFramework.Runner
         {
             StartCoroutine(MainThreadUpdater());
         }
-
         public void StopCoroutine(IEnumerator routine)
         {
             StopCoroutine(routine);
@@ -37,7 +36,7 @@ namespace GFramework.Runner
                 action.Invoke();
             }
         }
-        
+
         private IEnumerator MainThreadUpdater()
         {
             while (true)
@@ -74,13 +73,11 @@ namespace GFramework.Runner
         public void ScheduleLateUpdate(Action action)
         {
             _lateUpdateActionQueue.Add(action);
-            
         }
 
         public void UnscheduleLateUpdate(Action action)
         {
             _lateUpdateActionQueue.Remove(action);
-            
         }
 
         public void CallOnMainThread(Action action)

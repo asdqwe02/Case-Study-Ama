@@ -58,10 +58,6 @@ namespace CaseStudy.Scripts.MusicNightBattle.GameLogicControllers
                    UnityWebRequest.Get(Application.streamingAssetsPath + "/" + _songConfig.FilePath))
             {
                 yield return www.SendWebRequest();
-                while (!www.isDone) // block the thread until the request is done definitely could cause error 
-                {
-                    
-                }
 
                 if (www.result == UnityWebRequest.Result.ConnectionError
                     || www.result == UnityWebRequest.Result.ProtocolError)
@@ -76,6 +72,7 @@ namespace CaseStudy.Scripts.MusicNightBattle.GameLogicControllers
                     GetDataFromMidiFile();
                 }
             }
+            // _signalBus.Fire(GameState.START);
         }
 
         public void Restart()

@@ -21,6 +21,7 @@ namespace CaseStudy.Scenes.MusicNightBattle.Scripts
 
         [SerializeField] private GameObject _titleScreen;
         [SerializeField] private GameObject _mainGameUI;
+        [SerializeField] private GameObject _laodingScreen;
 
         [SerializeField] private Button _startButton;
         [SerializeField] private Button _tryAgainButton;
@@ -47,6 +48,17 @@ namespace CaseStudy.Scenes.MusicNightBattle.Scripts
             _signalBus.Subscribe<GameState>(OnGameState);
             _signalBus.Subscribe<HitNoteSignal>(OnNoteHit);
             _signalBus.Subscribe<MissNoteSignal>(OnNoteMiss);
+            _signalBus.Subscribe<CountDownState>(OnCountDownState);
+        }
+
+        private void OnCountDownState(CountDownState obj)
+        {
+            switch (obj)
+            {
+                case CountDownState.FINISH:
+                    _laodingScreen.SetActive(true);
+                    break;
+            }
         }
 
         private void Start()
@@ -72,6 +84,7 @@ namespace CaseStudy.Scenes.MusicNightBattle.Scripts
                 case GameState.START:
                     _titleScreen.SetActive(false);
                     _mainGameUI.SetActive(true);
+                    _laodingScreen.SetActive(false);
                     Canvas.ForceUpdateCanvases();
                     _signalBus.Fire<UpdateLanePositionSignal>();
                     break;
