@@ -10,6 +10,7 @@ namespace CaseStudy.Scripts.MusicNightBattle.GameLogicControllers
         void StartSong();
         void Restart();
         void ReadMidiFromFile();
+        IEnumerator ReadFromWebsite();
         void GetDataFromMidiFile();
         IEnumerator PlaySongDelay(float delayTime);
         double GetAudioSourceTime();

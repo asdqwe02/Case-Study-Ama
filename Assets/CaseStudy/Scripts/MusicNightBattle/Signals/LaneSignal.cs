@@ -1,4 +1,6 @@
-﻿namespace CaseStudy.Scripts.MusicNightBattle.Signals
+﻿using CaseStudy.Scripts.MusicNightBattle.GameLogicControllers;
+
+namespace CaseStudy.Scripts.MusicNightBattle.Signals
 {
     public struct UpdateLanePositionSignal
     {

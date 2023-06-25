@@ -1,7 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using CaseStudy.Scripts.MusicNightBattle;
 using CaseStudy.Scripts.MusicNightBattle.Configs;
+using CaseStudy.Scripts.MusicNightBattle.GameLogicControllers;
 using CaseStudy.Scripts.MusicNightBattle.Signals;
 using GFramework.Runner;
 using JetBrains.Annotations;
@@ -18,6 +20,7 @@ namespace CaseStudy.Scenes.MusicNightBattle.Scripts
     {
         [Inject] private ILogger _logger;
         [Inject] private IRunner _runner;
+        [Inject] private ISongController _songController;
         [Inject] private SignalBus _signalBus;
         [Inject] private HealthBarConfig _healthBarConfig;
         private bool _started = false;
@@ -61,7 +64,7 @@ namespace CaseStudy.Scenes.MusicNightBattle.Scripts
             }
         }
 
-        void CalculateHPPercent()   
+        void CalculateHPPercent()
         {
             _signalBus.Fire(new UpdateHPSignal
             {
@@ -80,8 +83,18 @@ namespace CaseStudy.Scenes.MusicNightBattle.Scripts
             if (obj == CountDownState.FINISH)
             {
                 Reset();
+#if UNITY_WEBGL
+                _runner.StartCoroutine(WebGLStart());
+#else
                 _signalBus.Fire(GameState.START);
+#endif
             }
+        }
+
+        IEnumerator WebGLStart()
+        {
+            yield return _runner.StartCoroutine(_songController.ReadFromWebsite());
+            _signalBus.Fire(GameState.START);
         }
 
         private void OnLaneFinished(LaneFinishedSignal obj)
@@ -107,7 +120,7 @@ namespace CaseStudy.Scenes.MusicNightBattle.Scripts
         }
 
         // Screen to world point function
-        public Vector3 GetLanePosition(RectTransform rectTransform) // quite heavy calculation
+        public Vector3 GetWorldPosFromCanvasPos(RectTransform rectTransform) // quite heavy calculation
         {
             // GOAL: Get x and y screen position of rectTransform and convert them to world space
 
