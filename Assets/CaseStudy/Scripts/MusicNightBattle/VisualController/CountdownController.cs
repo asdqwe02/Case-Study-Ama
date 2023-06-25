@@ -3,7 +3,7 @@ using CaseStudy.Scripts.MusicNightBattle.Signals;
 using UnityEngine;
 using Zenject;
 
-namespace CaseStudy.Scripts.MusicNightBattle
+namespace CaseStudy.Scripts.MusicNightBattle.VisualController
 {
     public class CountdownController : MonoBehaviour
     {
@@ -66,7 +66,6 @@ namespace CaseStudy.Scripts.MusicNightBattle
             _spriteIndex++;
             if (_spriteIndex >= _sprites.Count)
             {
-                Debug.Log("countdown finisih signal");
                 _signalBus.Fire(CountDownState.FINISH);
                 return;
             }

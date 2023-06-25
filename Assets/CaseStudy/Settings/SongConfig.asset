@@ -21,5 +21,6 @@ MonoBehaviour:
   PerfectHitMargin: {x: 0.05, y: 0.1}
   NoteTime: 1
   NoteSpawnY: 5
-  NoteTapY: -1.26875
-  FilePath: Song-beat-chart.mid
+  NoteTapY: -3.3376102
+  FilePath: test-beat.mid
+  PlayerOctave: 4

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CaseStudy.Scenes.MusicNightBattle.Scripts;
 using CaseStudy.Scripts.MusicNightBattle.Configs;
-using CaseStudy.Scripts.MusicNightBattle.Managers;
+using CaseStudy.Scripts.MusicNightBattle.GameLogicControllers;
 using CaseStudy.Scripts.MusicNightBattle.Signals;
 using Melanchall.DryWetMidi.Interaction;
 using UnityEngine;
@@ -25,7 +25,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
         private int _spawnIndex = 0;
         private int _inputIndex = 0;
         private bool _finished = false;
-
+        private Melanchall.DryWetMidi.Interaction.Note[] _laneMidiNotes;
         [Inject] private ISongController _songController;
         [Inject] private SongConfig _songConfig;
         [Inject] private SignalBus _signalBus;
@@ -60,6 +60,8 @@ namespace CaseStudy.Scripts.MusicNightBattle
 
         private void OnReceivedNotes(ReceivedNotesFromMidi obj)
         {
+            // _logger.Information($"octave: {obj.Notes[0].Octave}");
+            _laneMidiNotes = obj.Notes.Where(note => note.NoteName == _noteRestriction).ToArray();
             SetTimeStamp(obj.Notes);
         }
 
@@ -71,8 +73,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
         public void SetTimeStamp(Melanchall.DryWetMidi.Interaction.Note[] noteArray)
         {
             Reset();
-            var landNotes = noteArray.Where(note => note.NoteName == _noteRestriction);
-            foreach (var note in landNotes)
+            foreach (var note in _laneMidiNotes)
             {
                 // note.Time depend on the Midi time so need to convert it back to metric time
                 var metricTimeSpan =
@@ -90,8 +91,12 @@ namespace CaseStudy.Scripts.MusicNightBattle
         {
             if (_logic.Started)
             {
-                // spawn process
-                SpawnNote();
+                if (_spawnIndex < _timeStamps.Count)
+                {
+                    // spawn process
+                    SpawnNote();
+                }
+
                 // input process
                 ProcessBaseInput();
             }
@@ -134,28 +139,21 @@ namespace CaseStudy.Scripts.MusicNightBattle
                     ? (float)_timeStamps[_spawnIndex] - _songConfig.NoteTime
                     : (float)(_timeStamps[_spawnIndex] - _timeStamps[_spawnIndex - 1]);
                 yield return new WaitForSeconds(timeWait);
-                var note = _container.InstantiatePrefab(NotePrefab, transform)
-                    .GetComponent<Note>();
-                note.SetUp(_input, transform.position);
-                _notes.Add(note);
-                note.AssignedTime = (float)_timeStamps[_spawnIndex];
-                _spawnIndex++;
+                SpawnNote();
             }
         }
 
         void SpawnNote()
         {
-            if (_spawnIndex < _timeStamps.Count)
+            if (_songController.GetAudioSourceTime() >= _timeStamps[_spawnIndex] - _songConfig.NoteTime)
             {
-                if (_songController.GetAudioSourceTime() >= _timeStamps[_spawnIndex] - _songConfig.NoteTime)
-                {
-                    var note = _container.InstantiatePrefab(NotePrefab, transform)
-                        .GetComponent<Note>();
-                    note.SetUp(_input, transform.position);
-                    _notes.Add(note);
-                    note.AssignedTime = (float)_timeStamps[_spawnIndex];
-                    _spawnIndex++;
-                }
+                var note = _container.InstantiatePrefab(NotePrefab, transform)
+                    .GetComponent<Note>();
+                var isPlayerNote = _laneMidiNotes[_spawnIndex].Octave == _songConfig.PlayerOctave;
+                note.SetUp(_input, transform.position, isPlayerNote);
+                _notes.Add(note);
+                note.AssignedTime = (float)_timeStamps[_spawnIndex];
+                _spawnIndex++;
             }
         }
 
@@ -252,7 +250,6 @@ namespace CaseStudy.Scripts.MusicNightBattle
             {
                 Input = _input
             });
-            // GameManager.Instance.ChangeRightCharacterSprite(_input);
         }
 
         void UpdateLanePosition()

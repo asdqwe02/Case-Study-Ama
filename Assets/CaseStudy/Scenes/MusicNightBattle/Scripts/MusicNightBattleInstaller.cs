@@ -1,6 +1,7 @@
 using CaseStudy.Scripts.MusicNightBattle;
-using CaseStudy.Scripts.MusicNightBattle.Managers;
+using CaseStudy.Scripts.MusicNightBattle.GameLogicControllers;
 using CaseStudy.Scripts.MusicNightBattle.Signals;
+using CaseStudy.Scripts.MusicNightBattle.VisualController;
 using UnityEngine;
 using Zenject;
 

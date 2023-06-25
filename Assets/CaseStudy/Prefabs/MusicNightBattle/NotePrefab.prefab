@@ -103,4 +103,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3c0a38142c45eed498885b09b758e28f, type: 3}
   - {fileID: 21300000, guid: 2560d76a68686fb49892980f0c5acfb7, type: 3}
   - {fileID: 21300000, guid: ce2e0966d0eecbc41a8a4ba2b6a7a92b, type: 3}
+  _enemyArrowSprites:
+  - {fileID: 21300000, guid: 76292a8a77656db4dbf65db74c8750fa, type: 3}
+  - {fileID: 21300000, guid: 93253bcf26ad2994bba4abcd49b6ea4a, type: 3}
+  - {fileID: 21300000, guid: 21f6f6bd945ba304c92e0337d782369c, type: 3}
+  - {fileID: 21300000, guid: 5f7bfae2717f6e740bcc1f2aa6e71c14, type: 3}
   _horizontalScale: 0.75

@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace CaseStudy.Scripts.MusicNightBattle
+namespace CaseStudy.Scripts.MusicNightBattle.VisualController
 {
     public class ButtonEffectController : MonoBehaviour
     {

@@ -2,7 +2,7 @@
 using Melanchall.DryWetMidi.Core;
 using UnityEngine;
 
-namespace CaseStudy.Scripts.MusicNightBattle.Managers
+namespace CaseStudy.Scripts.MusicNightBattle.GameLogicControllers
 {
     public interface ISongController
     {

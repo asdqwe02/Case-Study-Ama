@@ -7,7 +7,7 @@ using Melanchall.DryWetMidi.Interaction;
 using UnityEngine;
 using Zenject;
 
-namespace CaseStudy.Scripts.MusicNightBattle.Managers
+namespace CaseStudy.Scripts.MusicNightBattle.GameLogicControllers
 {
     public class SongController : ISongController
     {
