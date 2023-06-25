@@ -40,6 +40,7 @@ namespace CaseStudy.Scripts.MusicNightBattle.VisualController
             {
                 _effectImage.sprite = _sprites[1];
             }
+
             _animator.SetTrigger(PopEffect);
         }
     }

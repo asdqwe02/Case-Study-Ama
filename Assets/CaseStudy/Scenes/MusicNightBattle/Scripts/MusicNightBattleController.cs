@@ -61,6 +61,7 @@ namespace CaseStudy.Scenes.MusicNightBattle.Scripts
 
         private void OnNoteHit(HitNoteSignal obj)
         {
+            // cam change beat audio depend on note being hit by player or enemy
             _beatSFXAudioSource.Play();
         }
 

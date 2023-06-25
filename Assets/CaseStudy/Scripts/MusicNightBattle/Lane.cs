@@ -222,9 +222,10 @@ namespace CaseStudy.Scripts.MusicNightBattle
                         _inputIndex++;
                     }
                 }
-                else if (timeStamp - audioTime <= 0) // enemy input
+                else if (timeStamp - audioTime <= 0) // enemy note hit
                 {
                     Destroy(_notes[_inputIndex].gameObject);
+                    Hit(false,false);
                     _signalBus.Fire(new ChangeEnemySprite
                     {
                         Input = _input
@@ -269,6 +270,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
                 Input = _input
             });
         }
+
         void UpdateLanePosition()
         {
             // Canvas.ForceUpdateCanvases();
