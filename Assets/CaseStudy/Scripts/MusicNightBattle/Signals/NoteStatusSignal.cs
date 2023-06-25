@@ -1,4 +1,6 @@
-﻿namespace CaseStudy.Scripts.MusicNightBattle.Signals
+﻿using UnityEngine;
+
+namespace CaseStudy.Scripts.MusicNightBattle.Signals
 {
     public enum NoteStatus
     {
@@ -17,6 +19,7 @@
     public struct HitNoteSignal
     {
         public bool Perfect;
+        public KeyCode Input;
     }
 
     public struct MissNoteSignal

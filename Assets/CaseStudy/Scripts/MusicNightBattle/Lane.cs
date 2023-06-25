@@ -109,7 +109,8 @@ namespace CaseStudy.Scripts.MusicNightBattle
             // ScoreManager.Instance.HitSFX();
             _signalBus.Fire(new HitNoteSignal
             {
-                Perfect = perfect
+                Perfect = perfect,
+                Input = _input
             });
         }
 
@@ -176,7 +177,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
                         var perfect = hitMargin <= _songConfig.PerfectHitMargin.y &&
                                       hitMargin >= _songConfig.PerfectHitMargin.x;
 
-                        _logger.Information($"hit margin: {hitMargin}, perfect: {perfect}");
+                        // _logger.Information($"hit margin: {hitMargin}, perfect: {perfect}");
                         Hit(perfect);
                         _logger.Debug($"Hit on {_inputIndex} note");
                         Destroy(_notes[_inputIndex].gameObject);
@@ -227,11 +228,16 @@ namespace CaseStudy.Scripts.MusicNightBattle
                 double marginOfError = _songConfig.MarginOfError;
                 double audioTime = _songController.GetAudioSourceTime() -
                                    (_songConfig.InputDelayInMilliseconds / 1000.0);
-                if (Math.Abs(audioTime - timeStamp) < marginOfError)
-                {
-                    Hit();
-                    _logger.Debug($"Hit on {_inputIndex} note");
 
+                var hitMargin = Math.Abs(audioTime - timeStamp);
+                if (hitMargin < marginOfError)
+                {
+                    var perfect = hitMargin <= _songConfig.PerfectHitMargin.y &&
+                                  hitMargin >= _songConfig.PerfectHitMargin.x;
+
+                    // _logger.Information($"hit margin: {hitMargin}, perfect: {perfect}");
+                    Hit(perfect);
+                    _logger.Debug($"Hit on {_inputIndex} note");
                     Destroy(_notes[_inputIndex].gameObject);
                     _inputIndex++;
                 }
