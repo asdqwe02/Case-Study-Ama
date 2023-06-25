@@ -173,8 +173,9 @@ namespace CaseStudy.Scripts.MusicNightBattle
                     var hitMargin = Math.Abs(audioTime - timeStamp);
                     if (hitMargin < marginOfError)
                     {
-                        var perfect = hitMargin <= _songConfig.PerfectHitMargin.y && hitMargin >= _songConfig.PerfectHitMargin.x;
-                        
+                        var perfect = hitMargin <= _songConfig.PerfectHitMargin.y &&
+                                      hitMargin >= _songConfig.PerfectHitMargin.x;
+
                         _logger.Information($"hit margin: {hitMargin}, perfect: {perfect}");
                         Hit(perfect);
                         _logger.Debug($"Hit on {_inputIndex} note");
@@ -250,7 +251,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
 
         void UpdateLanePosition()
         {
-            Canvas.ForceUpdateCanvases();
+            // Canvas.ForceUpdateCanvases();
             var buttonWorldPos = _logic.GetLanePosition(_laneInputButton.GetComponent<RectTransform>());
             var pos = transform.position;
             pos.x = buttonWorldPos.x;
