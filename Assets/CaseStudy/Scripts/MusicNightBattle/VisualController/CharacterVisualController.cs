@@ -2,28 +2,39 @@
 using CaseStudy.Scripts.MusicNightBattle.Signals;
 using UnityEngine;
 using Zenject;
+using ILogger = GFramework.Logger.ILogger;
 
 namespace CaseStudy.Scripts.MusicNightBattle.VisualController
 {
     public class CharacterVisualController : MonoBehaviour
     {
         [SerializeField] private List<Sprite> _sprites;
-        [SerializeField] private bool _player;
+        [SerializeField] private bool _isPlayer;
         private SpriteRenderer _spriteRenderer;
         [Inject] private SignalBus _signalBus;
+        [Inject] private ILogger _logger;
 
         private void Awake()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
-            if (_player)
+            if (_isPlayer)
             {
-                _signalBus.Subscribe<ChangeCharacterSprite>(OnChangeCharacterSprite);
+                _signalBus.Subscribe<ChangePlayerSprite>(OnChangePlayerSprite);
             }
+            else
+            {
+                _signalBus.Subscribe<ChangeEnemySprite>(OnChangeEnemySprite);
+            }
+        }
+
+        private void OnChangeEnemySprite(ChangeEnemySprite obj)
+        {
+            ChangeSprite(obj.Input);
         }
 
         // change character visual by changing sprite for now 
         // will switch to change animation state when have asset
-        private void OnChangeCharacterSprite(ChangeCharacterSprite obj) 
+        private void OnChangePlayerSprite(ChangePlayerSprite obj)
         {
             ChangeSprite(obj.Input);
         }

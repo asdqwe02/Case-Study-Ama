@@ -17,7 +17,7 @@ namespace CaseStudy.Scripts.MusicNightBattle.VisualController
 
         private void OnNoteHit(HitNoteSignal obj)
         {
-            if (obj.Input == _input)
+            if (obj.Input == _input && obj.IsPlayer)
             {
                 _hitEffect.Play();
             }
