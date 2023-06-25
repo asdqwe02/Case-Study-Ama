@@ -2,7 +2,6 @@
 using CaseStudy.Scenes.MusicNightBattle.Scripts;
 using CaseStudy.Scripts.MusicNightBattle.Configs;
 using CaseStudy.Scripts.MusicNightBattle.Managers;
-using CaseStudy.Scripts.MusicNightBattle.Signals;
 using UnityEngine;
 using Zenject;
 
@@ -13,7 +12,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
         private double _timeInstantiated;
         public double AssignedTime;
         private SpriteRenderer _spriteRenderer;
-        [SerializeField] private List<Sprite> _sprites;
+        [SerializeField] private List<Sprite> _playerArrowSprites;
         [SerializeField] private float _horizontalScale;
         [Inject] private ISongController _songController;
         [Inject] private SongConfig _songConfig;
@@ -54,7 +53,7 @@ namespace CaseStudy.Scripts.MusicNightBattle
                     break;
             }
 
-            _spriteRenderer.sprite = _sprites[index];
+            _spriteRenderer.sprite = _playerArrowSprites[index];
             _spriteRenderer.enabled = true;
         }
 

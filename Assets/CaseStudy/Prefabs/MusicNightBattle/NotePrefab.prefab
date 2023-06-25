@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AssignedTime: 0
-  _sprites:
+  _playerArrowSprites:
   - {fileID: 21300000, guid: 76c9591b197c3784cb5a77e7b711f902, type: 3}
   - {fileID: 21300000, guid: 3c0a38142c45eed498885b09b758e28f, type: 3}
   - {fileID: 21300000, guid: 2560d76a68686fb49892980f0c5acfb7, type: 3}

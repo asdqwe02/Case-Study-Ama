@@ -109,7 +109,8 @@ namespace CaseStudy.Scripts.MusicNightBattle
             // ScoreManager.Instance.HitSFX();
             _signalBus.Fire(new HitNoteSignal
             {
-                Perfect = perfect
+                Perfect = perfect,
+                Input =  _input
             });
         }
 
