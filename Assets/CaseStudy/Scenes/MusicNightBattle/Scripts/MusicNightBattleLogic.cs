@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using CaseStudy.Scripts.MusicNightBattle;
 using CaseStudy.Scripts.MusicNightBattle.Configs;
 using CaseStudy.Scripts.MusicNightBattle.GameLogicControllers;
 using CaseStudy.Scripts.MusicNightBattle.Signals;
@@ -87,14 +86,16 @@ namespace CaseStudy.Scenes.MusicNightBattle.Scripts
                 _runner.StartCoroutine(WebGLStart());
 #else
                 _signalBus.Fire(GameState.START);
+                _started = true;
 #endif
             }
         }
 
         IEnumerator WebGLStart()
         {
-            yield return _runner.StartCoroutine(_songController.ReadFromWebsite());
+            yield return _songController.ReadFromWebsite();
             _signalBus.Fire(GameState.START);
+            _started = true;
         }
 
         private void OnLaneFinished(LaneFinishedSignal obj)
@@ -116,7 +117,7 @@ namespace CaseStudy.Scenes.MusicNightBattle.Scripts
         {
             PlayerHp = _healthBarConfig.PlayerInitalHP;
             _laneFinished.Clear();
-            _started = true;
+            _started = false;
         }
 
         // Screen to world point function
