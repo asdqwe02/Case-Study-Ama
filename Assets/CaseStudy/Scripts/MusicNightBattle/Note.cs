@@ -2,6 +2,7 @@
 using CaseStudy.Scenes.MusicNightBattle.Scripts;
 using CaseStudy.Scripts.MusicNightBattle.Configs;
 using CaseStudy.Scripts.MusicNightBattle.Managers;
+using CaseStudy.Scripts.MusicNightBattle.Signals;
 using UnityEngine;
 using Zenject;
 
