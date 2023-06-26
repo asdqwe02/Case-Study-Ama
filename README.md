@@ -2,16 +2,14 @@
 
 ## Overview
 
-- [Amanote Case Study](#amanote-case-study)
-  - [Overview](#overview)
-  - [Introduction](#introduction)
-    - [``Frameworks & Technologies:``](#frameworks--technologies)
-  - [Folder Structure](#folder-structure)
-  - [Main Components](#main-components)
-    - [``UI components``](#ui-components)
-    - [``Scripts``](#scripts)
-  - [Problems](#problems)
-  - [**Future Improvements**](#future-improvements)
+- [Introduction](#introduction)
+  - [``Frameworks & Technologies:``](#frameworks--technologies)
+- [Folder Structure](#folder-structure)
+- [Main Components](#main-components)
+  - [``UI components``](#ui-components)
+  - [``Scripts``](#scripts)
+- [Problems](#problems)
+- [**Future Improvements**](#future-improvements)
 
 [//]: # (- [Key Features]&#40;#key-features&#41;)
 
@@ -134,5 +132,5 @@ Inside the [`CaseStudy`](./Assets/CaseStudy) folder:
 - Can migrate from `Extenject` DI framework if needed to make it easier for when other people who don't know about `Extenject` to work on the project in the future. Instead of `Extenject` should use ScriptableObject architecture and design patterns to modularize the game logic.
 - Imrpove the VFX when hitting a note and missing a note, make the visual effect look more vibrant and snappy
 - Replace current note hit SFX with different SFX for each note type.
-- Update the character visual to use animation instead of just changing sprite when hitting a note and missing a note.
+- Update the character visual to use animation state instead of just changing sprite when hitting a note and missing a note.
 - Refactor the game loop logic to make it more efficient and reduce tight coupling.
