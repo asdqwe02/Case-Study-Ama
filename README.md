@@ -11,13 +11,15 @@
     - [``UI components``](#ui-components)
     - [``Scripts``](#scripts)
   - [Problems](#problems)
-  - [**Future Improvement**](#future-improvement)
+  - [**Future Improvements**](#future-improvements)
 
 [//]: # (- [Key Features]&#40;#key-features&#41;)
 
 ## Introduction
 
 This is my sbmission for Amanote Playable Ad Dev Interview Case Study
+
+- [Final Output](https://asdqwe02.github.io/Case-Study-Hosting/)
 
 ### ``Frameworks & Technologies:``
 
@@ -123,10 +125,14 @@ Inside the [`CaseStudy`](./Assets/CaseStudy) folder:
 - A lot of assets refernces and game setting values haven't been parameterized yet which make it harder to maintain or add new features to the project in the future  
 - It might be hard for other people to work on this project if they don't know about the `Extenject` dependency injection frameowrk
 
-## **Future Improvement**
+## **Future Improvements**
 
 - Write logic to detect screen resolution of different aspect ratio to scale game object accordingly or lock camera aspect ratio to `16:9` or `9:16`
 - Decoupling game logic in the project and modularize scripts so that it can be easier to implement new feature and maintain the project in the future.
 - Refactor the spawn note logic in `Lane` script and move input processing outside to another sript. Create an input dispatcher script to send input signal to scripts that subscribe to an input event to modularize input processing logic.
 - Paremeterize all the asset references and game setting values in the game for easier maintainence, changing assets and tweaking game object values in game.
 - Can migrate from `Extenject` DI framework if needed to make it easier for when other people who don't know about `Extenject` to work on the project in the future. Instead of `Extenject` should use ScriptableObject architecture and design patterns to modularize the game logic.
+- Imrpove the VFX when hitting a note and missing a note, make the visual effect look more vibrant and snappy
+- Replace current note hit SFX with different SFX for each note type.
+- Update the character visual to use animation instead of just changing sprite when hitting a note and missing a note.
+- Refactor the game loop logic to make it more efficient and reduce tight coupling.
