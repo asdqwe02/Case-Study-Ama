@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using CaseStudy.Scripts.MusicNightBattle.Configs;
-using CaseStudy.Scripts.MusicNightBattle.GameLogicControllers;
-using CaseStudy.Scripts.MusicNightBattle.Signals;
+using CaseStudy.Scripts.Configs;
+using CaseStudy.Scripts.GameLogicControllers;
+using CaseStudy.Scripts.Signals;
 using GFramework.Runner;
 using JetBrains.Annotations;
 using UnityEngine;

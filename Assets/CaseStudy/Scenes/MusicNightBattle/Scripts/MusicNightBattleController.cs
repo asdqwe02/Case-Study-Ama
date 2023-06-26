@@ -1,6 +1,6 @@
-using CaseStudy.Scripts.MusicNightBattle.Configs;
-using CaseStudy.Scripts.MusicNightBattle.GameLogicControllers;
-using CaseStudy.Scripts.MusicNightBattle.Signals;
+using CaseStudy.Scripts.Configs;
+using CaseStudy.Scripts.GameLogicControllers;
+using CaseStudy.Scripts.Signals;
 using GFramework.Scene;
 using UnityEngine;
 using UnityEngine.UI;
