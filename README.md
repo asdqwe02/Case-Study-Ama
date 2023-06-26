@@ -128,15 +128,16 @@ Inside the [`CaseStudy`](./Assets/CaseStudy) folder:
 - The game UI can scale relatively well with any resolution but the game objects can't scale well on any aspect ratio other than `16:9` or `9:16`
 - Some of the components in game are still tightly couple together.
 - Some of the core logics like processing input and when to spawn note is heavily depend on the `Lane` script
-- A lot of assets refernces and game setting values haven't been parameterized yet which make it harder to maintain or add new features to the project in the future  
-- It might be hard for other people to work on this project if they don't know about the `Extenject` dependency injection frameowrk
+- A lot of assets references and game setting values haven't been parameterized yet which make it harder to maintain or add new features to the project in the future  
+- It might be hard for other people to work on this project if they don't know about the `Extenject` dependency injection framework
+- The game might not run as smooth on mobile web device
 
 ## **Future Improvements**
 
 - Write logic to detect screen resolution of different aspect ratio to scale game object accordingly or lock camera aspect ratio to `16:9` or `9:16`
 - Decoupling game logic in the project and modularize scripts so that it can be easier to implement new feature and maintain the project in the future.
 - Refactor the spawn note logic in `Lane` script and move input processing outside to another sript. Create an input dispatcher script to send input signal to scripts that subscribe to an input event to modularize input processing logic.
-- Paremeterize all the asset references and game setting values in the game for easier maintainence, changing assets and tweaking game object values in game.
+- Paremeterize all the asset references and game setting values in the game for easier maintenance, changing assets and tweaking game object values in game.
 - Can migrate from `Extenject` DI framework if needed to make it easier for when other people who don't know about `Extenject` to work on the project in the future. Instead of `Extenject` should use ScriptableObject architecture and design patterns to modularize the game logic.
 - Imrpove the VFX when hitting a note and missing a note, make the visual effect look more vibrant and snappy
 - Replace current note hit SFX with different SFX for each note type.
