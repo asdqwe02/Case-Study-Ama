@@ -79,6 +79,14 @@ Inside the [`CaseStudy`](./Assets/CaseStudy) folder:
 
 ### ``UI components``
 
+- Title Screen:
+
+  ![Alt text](./README%20images/title%20screen.png)
+
+- Main Game UI:
+
+  ![Alt text](./README%20images/Main%20game%20UI.png) ![Alt text](./README%20images/main%20game%20UI%201.png)
+
 - "Start" and "Try Again" Buttons:
 
     ![Alt text](./README%20images/image-2.png)  ![Alt text](./README%20images/image-3.png)
@@ -87,13 +95,13 @@ Inside the [`CaseStudy`](./Assets/CaseStudy) folder:
 
     ![Arrow Buttons](./README%20images/image.png)
 
-    To receive input from player on a particular note lane
+- Arrow Button Effects:
 
-- Countdown:
+  ![Alt text](./README%20images/arow%20button%20effects.png)
 
-    ![Alt text](./README%20images/image-1.png)
+- Health bar:
 
-    Display countdown time when click start button
+  ![Alt text](./README%20images/healthbar.png)
 
 ### ``Scripts``
 
