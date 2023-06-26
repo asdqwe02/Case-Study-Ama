@@ -15,7 +15,7 @@
 
 ## Introduction
 
-This is my sbmission for Amanote Playable Ad Dev Interview Case Study
+This is my submission for Amanote Playable Ad Dev Interview Case Study
 
 - [Final Output](https://asdqwe02.github.io/Case-Study-Hosting/)
 
@@ -36,7 +36,7 @@ This is my sbmission for Amanote Playable Ad Dev Interview Case Study
 
 ## Folder Structure
 
-For the folder and file structures of this project first I create a folder name [`CaseStudy`](./Assets/CaseStudy) inside
+For the folder and file structures of this project I create a folder name [`CaseStudy`](./Assets/CaseStudy) inside
 my `Assets` folder to hold all the assets being used.
 
 Inside the [`CaseStudy`](./Assets/CaseStudy) folder:
@@ -67,7 +67,7 @@ Inside the [`CaseStudy`](./Assets/CaseStudy) folder:
 
 - The [`Scenes`](./Assets/CaseStudy/Scenes) folder will be consist of the scene asset file and scripts that control the
   main logic for that particular scene
-- The [`Scripts`](./Assets/CaseStudy/Scripts) is splitted into multiple sub folder:
+- The [`Scripts`](./Assets/CaseStudy/Scripts) folder is splitted into multiple sub folder:
   - [`Configs`](./Assets/CaseStudy/Scripts/Configs): contains all the scriptable object scripts to parameterize assets
       reference and game settings like note duration, input delay, note tap and despawn position etc
   - [`GameLogicControllers`](./Assets/CaseStudy/Scripts/GameLogicControllers): contains scripts that control the game logic like
